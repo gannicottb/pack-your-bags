@@ -7,7 +7,7 @@ You're heading off on your next big trip, and it's time to pack your bags! Drag 
 
 Game Mechanics
 
-Players drag items from the right into the "Bag" on the left. The "Bag" is a grid of squares, and the "Items" are all laid out in squares. Items must be placed in valid locations (not overlapping other items or the borders of the bag. The items can be rotated on 90 degree increments and moved again once placed into the bag. Each level is timed. Once all the items have been placed OR the time runs out, the top of the bag closes and the user is given their score (based on completion of their packing and time taken)
+Players drag items from the right into the "Bag" on the left. The "Bag" is a grid of squares, and the "Items" are all laid out in squares. Items must be placed in valid locations (not overlapping other items or the borders of the bag). The items can be rotated on 90 degree increments and moved again once placed into the bag. Each level is timed. Once all the items have been placed OR the time runs out, the top of the bag closes and the user is given their score (based on completion of their packing and time taken)
 
 Level Design
 
@@ -22,14 +22,19 @@ Scenes
 * Start screen 
 * Level(Trip) Select
 * Gameplay
-
+* Level results
 
 Controls
 
 * Touch - drag 'n' drop item into bag
-* Two finger touch - rotate items in the bag
+* Two-finger twist - rotate items in the bag
 
 Classes
+
+Item
+Bag 
+Lid?
+Item tray
 
 Milestones
 ----------
