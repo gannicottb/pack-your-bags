@@ -407,9 +407,9 @@
 				D34C7AA81A9433E4007D7AB2 /* Grid.m */,
 				D34C7AA91A9433E4007D7AB2 /* Tile.h */,
 				D34C7AAA1A9433E4007D7AB2 /* Tile.m */,
-				D352B48019EC608A00829775 /* MetalShaders */,
 				D34C7AB61A944CE5007D7AB2 /* Gameplay.h */,
 				D34C7AB71A944CE5007D7AB2 /* Gameplay.m */,
+				D352B48019EC608A00829775 /* MetalShaders */,
 			);
 			name = Source;
 			sourceTree = "<group>";

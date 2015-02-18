@@ -1,6 +1,10 @@
 # pack-your-bags
 Course project for CMU iOS Game Development Course
 
+Art by Kenney 
+kenny.nl 
+http://creativecommons.org/licenses/by/3.0/ 
+
 Objective
 
 You're heading off on your next big trip, and it's time to pack your bags! Drag and drop your items into the bag - they'll all fit if you're clever! The plane/train/boat leaves soon, so you've got to hurry! 
