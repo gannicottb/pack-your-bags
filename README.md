@@ -31,10 +31,10 @@ Controls
 
 Classes
 
-Item
-Bag 
-Lid?
-Item tray
+* Item
+* Bag 
+* Lid?
+* Item tray
 
 Milestones
 ----------
