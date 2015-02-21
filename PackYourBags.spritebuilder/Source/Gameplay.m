@@ -21,7 +21,15 @@
     self.userInteractionEnabled = TRUE;
     
     //Load the first level - eventually redirect from a level select menu
+    CCScene *level = [CCBReader loadAsScene:@"Levels/Level0"];
+    [_levelNode addChild:level];
+    
+}
+
+- (void)next {
+    //This should cycle through an array of levels but eh
     CCScene *level = [CCBReader loadAsScene:@"Levels/Level1"];
+    [_levelNode removeAllChildren];
     [_levelNode addChild:level];
     
 }

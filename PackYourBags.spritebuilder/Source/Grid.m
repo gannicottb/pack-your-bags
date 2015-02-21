@@ -19,6 +19,15 @@
   NSNull *_noTile;
 }
 
+-(void)didLoadFromCCB{
+    
+    
+    CGPoint worldCoord = [self convertToWorldSpaceAR: self.position];
+    CCLOG(@"Grid pos: %f, %f", worldCoord.x, worldCoord.y);
+    CCLOG(@"Grid size: %f x %f",self.contentSize.height, self.contentSize.width);
+    
+}
+
 //static const NSInteger GRID_SIZE = 4;
 //static const NSInteger START_TILES = 2;
 //static const NSInteger WIN_TILE = 2048;
