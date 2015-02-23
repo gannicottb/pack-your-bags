@@ -21,10 +21,12 @@
 
 -(void)didLoadFromCCB{
     
-    
-    CGPoint worldCoord = [self convertToWorldSpaceAR: self.position];
-    CCLOG(@"Grid pos: %f, %f", worldCoord.x, worldCoord.y);
+    CGSize s = [CCDirector sharedDirector].viewSize;
+    CGPoint worldCoord = [[self parent] convertToWorldSpaceAR: [self position]];
+    CCLOG(@"Grid pos: %f, %f", worldCoord.x*s.width, worldCoord.y*s.height);
     CCLOG(@"Grid size: %f x %f",self.contentSize.height, self.contentSize.width);
+    
+ 
     
 }
 

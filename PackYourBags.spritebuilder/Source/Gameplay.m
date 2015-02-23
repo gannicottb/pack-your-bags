@@ -20,9 +20,17 @@
     // tell this scene to accept touches
     self.userInteractionEnabled = TRUE;
     
+    //self.name = @"Gameplay";
+    
     //Load the first level - eventually redirect from a level select menu
     CCScene *level = [CCBReader loadAsScene:@"Levels/Level0"];
     [_levelNode addChild:level];
+    
+//    CGSize s = [CCDirector sharedDirector].viewSize;
+//    
+//    CGPoint worldCoord = [self convertToWorldSpace: _grid.position];
+//    
+//    CCLOG(@"World Coords of Grid x: %f y: %f", worldCoord.x*s.width, worldCoord.y*s.height);
     
 }
 

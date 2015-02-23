@@ -8,7 +8,10 @@
 
 #import "Tile.h"
 
-@implementation Tile
+@implementation Tile{
+    CCNode *_grid;
+}
+
 //{
 //  CCLabelTTF *_valueLabel;
 //  CCNodeColor *_backgroundNode;
@@ -26,8 +29,11 @@
 //
 - (void)onEnter{
     [super onEnter];
-    CCLOG(@"Tile onEnter");
     self.userInteractionEnabled = true;
+    
+    _grid = [self.parent.parent.parent.parent getChildByName:@"Grid" recursively:true];
+    CCLOG(@"grid find? %@", _grid.name);
+    
 }
 
 - (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event
@@ -48,8 +54,36 @@
 -(void)touchEnded:(CCTouch *)touch withEvent:(CCTouchEvent *)event
 {
     //Check to see where we are relative to the Grid
-    //Are we inside the grid?
     
+    CGPoint worldPos = [self.parent convertToWorldSpace: self.position];
+    CCLOG(@"Tile WorldPos %f,%f", worldPos.x, worldPos.y);
+    
+    CGSize s = [CCDirector sharedDirector].viewSize;
+    CGPoint gridPos = CGPointMake(s.width*_grid.position.x, s.height*_grid.position.y);
+    
+    //Are we inside the grid?
+    float diff = fabsf(worldPos.x - gridPos.x) + fabsf(worldPos.y - gridPos.y);
+    
+    //Calculate distance between grid center and tile center
+    CGFloat xDist = (worldPos.x - gridPos.x);
+    CGFloat yDist = (worldPos.y - gridPos.y);
+    CGFloat distance = sqrt((xDist * xDist) + (yDist * yDist));
+    
+    if(distance < _grid.contentSize.width/2.0){
+        CCLOG(@"Close enough! diff=%f", diff);
+        self.position = [self.parent convertToNodeSpace:gridPos];
+    }
+    
+    
+    
+    CCLOG(@"tile bounding box %f x %f", self.boundingBox.size.width, self.boundingBox.size.height);
+    CCLOG(@"grid bounding box %f x %f", _grid.boundingBox.size.width, _grid.boundingBox.size.height);
+    if( CGRectIntersectsRect( [self boundingBox], [_grid boundingBox] ) ) {
+        
+        // Handle overlap
+        //CCLOG(@"OVERLAP WITH GRIIIIIDDDDDD"); // this doesn't always work?
+        
+    }
     
 }
 @end
