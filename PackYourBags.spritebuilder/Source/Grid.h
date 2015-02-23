@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 MakeGamesWithUs inc. Free to use for all purposes.
 //
 
-#import "CCNodeColor.h"
-
-@interface Grid : CCNodeColor
-
-@property (nonatomic, assign) NSInteger score;
-
-@end
+//#import "CCNodeColor.h"
+//
+//@interface Grid : CCNodeColor
+//
+//@property (nonatomic, assign) NSInteger score;
+//
+//@end

@@ -12,7 +12,9 @@
 @implementation Gameplay{
 
     CCNode *_levelNode;
-    Grid *_grid;
+    CCPhysicsNode *_physicsNode;
+    CCNode *_mouseJointNode;
+    //Grid *_grid;
 }
 
 
@@ -20,10 +22,12 @@
     // tell this scene to accept touches
     self.userInteractionEnabled = TRUE;
     
+    _physicsNode.debugDraw = TRUE;
+    
     //self.name = @"Gameplay";
     
     //Load the first level - eventually redirect from a level select menu
-    CCScene *level = [CCBReader loadAsScene:@"Levels/Level0"];
+    CCScene *level = [CCBReader loadAsScene:@"Levels/Level1"];
     [_levelNode addChild:level];
     
 //    CGSize s = [CCDirector sharedDirector].viewSize;
