@@ -60,14 +60,17 @@
     CCLOG(@"_mouseJointNode is a %@", _mouseJointNode.name);
    // held = true;
     CGPoint touchLocation = [touch locationInNode:self.parent];
+   
     // move the mouseJointNode to the touch position
     _mouseJointNode.position = touchLocation;
+    //_mouseJointNode.position = self.anchorPointInPoints;
     CCLOG(@"Touch began! MJN is at %f,%f", _mouseJointNode.position.x, _mouseJointNode.position.y);
     
     // create a joint to hold the tile until the user releases the touch
-    //BUG: Very strong impulse when the join is created, disruptive.
     _holdJoint = [CCPhysicsJoint connectedPivotJointWithBodyA:self.physicsBody bodyB:_mouseJointNode.physicsBody anchorA:self.anchorPointInPoints];
-}
+    _holdJoint.maxForce = 10000.0; //this makes it way less jittery
+    
+    }
 
 - (void)touchMoved:(CCTouch *)touch withEvent:(CCTouchEvent *)event
 {
