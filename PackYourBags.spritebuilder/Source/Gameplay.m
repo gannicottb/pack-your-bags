@@ -17,7 +17,7 @@
     CCPhysicsNode *_physicsNode;
     CCNode *_mouseJointNode;
     
-    CCNode *_lid;
+    
     
     CCNode *_closeSensorL;
     CCNode *_closeSensorR;
@@ -66,7 +66,7 @@
     self.userInteractionEnabled = TRUE;
     
     //Physics settings
-    _physicsNode.debugDraw = TRUE;
+    _physicsNode.debugDraw = NO;
     _physicsNode.collisionDelegate = self;
     
     //Set our sensors
@@ -90,15 +90,21 @@
         bool allTilesInBag = true;
         
         NSArray *tiles = [_levelNode getChildByName:@"tiles" recursively:true].children;
-        for (CCNode* tile in tiles)
+        for (CCNode* node in tiles)
         {
-            if ([tile isKindOfClass:[Tile class]])
+            if ([node isKindOfClass:[Tile class]])
             {
-                allTilesInBag = ((Tile*)tile).inBag;
+                Tile *tile = (Tile*)node;
+                allTilesInBag &= tile.inBag; //just one false will poison the value permanently
+                CCLOG(@"%@ tile is in the bag? %i",tile, tile.inBag);
             }
         }
         win = allTilesInBag;
-        if(win)CCLOG(@"You win!");
+        if(win){
+            CCLOG(@"You win!");
+        }else{
+            CCLOG(@"You lose!");
+        }
     }
     
     
@@ -114,11 +120,15 @@
 
 -(void)close{
     //Attempt to close the lid
-    CCNode *lid = [CCBReader load:@"Lid"];
-    [_physicsNode addChild: lid];
-    lid.position = CGPointMake(_inBagSensor.positionInPoints.x, _inBagSensor.positionInPoints.y+256.0f);
+    CCNode *_lid = [CCBReader load:@"Lid"];
     
-    CCLOG(@"Close!");
+    CGPoint lidPosition = [_inBagSensor convertToWorldSpace:ccp(-24, 210)];
+    // transform the world position to the node space to which the penguin will be added (_physicsNode)
+    _lid.positionInPoints = [_physicsNode convertToNodeSpace:lidPosition];
+    
+    [_physicsNode addChild: _lid];
+    
+    
 }
 
 

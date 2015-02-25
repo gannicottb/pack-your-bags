@@ -10,7 +10,7 @@
 		<false/>
 	</dict>
 	<key>UUID</key>
-	<integer>2</integer>
+	<integer>4</integer>
 	<key>centeredOrigin</key>
 	<false/>
 	<key>currentResolution</key>
@@ -41,7 +41,7 @@
 		<array>
 			<dict>
 				<key>UUID</key>
-				<integer>1</integer>
+				<integer>3</integer>
 				<key>baseClass</key>
 				<string>CCSprite</string>
 				<key>children</key>
@@ -49,7 +49,7 @@
 				<key>customClass</key>
 				<string></string>
 				<key>displayName</key>
-				<string>lid</string>
+				<string>element_red_rectangle</string>
 				<key>memberVarAssignmentName</key>
 				<string></string>
 				<key>memberVarAssignmentType</key>
@@ -59,7 +59,7 @@
 					<key>affectedByGravity</key>
 					<true/>
 					<key>allowsRotation</key>
-					<true/>
+					<false/>
 					<key>bodyShape</key>
 					<integer>0</integer>
 					<key>collisionCategories</key>
@@ -71,11 +71,11 @@
 					<key>cornerRadius</key>
 					<real>0.0</real>
 					<key>density</key>
-					<real>1</real>
+					<real>2</real>
 					<key>dynamic</key>
 					<true/>
 					<key>elasticity</key>
-					<real>0.30000001192092896</real>
+					<real>0.0</real>
 					<key>friction</key>
 					<real>0.30000001192092896</real>
 					<key>points</key>
@@ -127,7 +127,7 @@
 						<key>type</key>
 						<string>StringSimple</string>
 						<key>value</key>
-						<string>lid</string>
+						<string></string>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -136,8 +136,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>36.070587158203125</real>
-							<real>250.63185119628906</real>
+							<real>0.0</real>
+							<real>0.0</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -161,19 +161,11 @@
 						<string>ScaleLock</string>
 						<key>value</key>
 						<array>
-							<real>9.4624948501586914</real>
-							<real>1.9020817279815674</real>
+							<real>9.5</real>
+							<real>2</real>
 							<false/>
 							<integer>0</integer>
 						</array>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>rotation</string>
-						<key>type</key>
-						<string>Degrees</string>
-						<key>value</key>
-						<real>0.024261474609375</real>
 					</dict>
 					<dict>
 						<key>name</key>
