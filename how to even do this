@@ -1,0 +1,37 @@
+how to even do this
+
+Drag and drop pieces to the bag.
+
+The pieces should snap into place in the bag if they are within the boundaries, and snap back to their starting place if not.
+
+"Snap into place"
+
+simple case: 1x1 square. Find the center of the square. Find the grid square center that's closest. Move the square to that center.
+harder case: 2x1 square. Where is the center? It has to be a center that wouldn't cause illegal placement.
+even harder: E shaped tetromino. 
+
+How to represent the bag grid
+
+When we drop a piece in, we could mark the spaces that it occupies.
+
+Or, we could keep track of how many pieces are still in the item tray. We only update that number when a piece is successfully placed.
+
+numItemsLeft = x (count the nodes in level???)
+
+onSuccessfulDrop{
+	...
+	numItemsLeft--;
+}
+
+Obvious exploit: successfully place the same piece over and over. Fix: maintain state for each piece.
+
+Is this approach simpler than figuring out which spaces in the grid are occupied?
+
+Is there just a simpler way to do this, or a simpler game that I can make?
+
+
+
+
+Listen for collision with lid on both of the sensors
+Create a sensor inside the box, add bool _inTheBox member var to Tile. Toggle based on collision with boxSensor
+

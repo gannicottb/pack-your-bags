@@ -10,7 +10,7 @@
 
 @interface Tile : CCNode
 
-//@property (nonatomic, assign) NSInteger value;
+@property (nonatomic, assign) bool inBag;
 
 //- (void)updateValueDisplay;
 

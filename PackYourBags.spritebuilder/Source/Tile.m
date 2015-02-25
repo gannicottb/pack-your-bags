@@ -13,15 +13,11 @@
     CGSize winSize;
    
     CGPoint originalPos;
+    
    
     CCNode *_mouseJointNode;
     CCPhysicsJoint *_holdJoint;
 }
-
-//{
-//  CCLabelTTF *_valueLabel;
-//  CCNodeColor *_backgroundNode;
-//}
 //
 //- (id)init {
 //  self = [super init];
@@ -39,9 +35,12 @@
 
 - (void)onEnter{
     [super onEnter];
+    
+    self.inBag = false;
+    
     self.userInteractionEnabled = true;
     
-    
+    self.physicsBody.allowsRotation = false;
 
     _mouseJointNode = [self.parent.parent.parent.parent getChildByName:@"_mouseJointNode" recursively:true];
     _mouseJointNode.physicsBody.collisionMask = @[];
@@ -57,18 +56,19 @@
 - (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event
 {
     
-    CCLOG(@"_mouseJointNode is a %@", _mouseJointNode.name);
-   // held = true;
     CGPoint touchLocation = [touch locationInNode:self.parent];
    
-    // move the mouseJointNode to the touch position
+     //move the mouseJointNode to the touch position
     _mouseJointNode.position = touchLocation;
-    //_mouseJointNode.position = self.anchorPointInPoints;
+    
+    self.physicsBody.affectedByGravity = false;
+    
+    
     CCLOG(@"Touch began! MJN is at %f,%f", _mouseJointNode.position.x, _mouseJointNode.position.y);
     
     // create a joint to hold the tile until the user releases the touch
     _holdJoint = [CCPhysicsJoint connectedPivotJointWithBodyA:self.physicsBody bodyB:_mouseJointNode.physicsBody anchorA:self.anchorPointInPoints];
-    _holdJoint.maxForce = 10000.0; //this makes it way less jittery
+    _holdJoint.maxForce = 60000.0; //this makes it way less jittery
     
     }
 
@@ -78,13 +78,7 @@
     CGPoint touchLocation = [touch locationInNode: self.parent];
     _mouseJointNode.position = touchLocation;
     
-    CCLOG(@"Touch moved! MJN is at %f,%f", _mouseJointNode.position.x, _mouseJointNode.position.y);
-    
-    
-//    // we want to know the location of our touch in this scene
-//    CGPoint touchLocation = [touch locationInNode:self.parent];
-//    // make the tile follow the touch
-//    self.position = touchLocation;
+    //CCLOG(@"Touch moved! MJN is at %f,%f", _mouseJointNode.position.x, _mouseJointNode.position.y);
     
     
     //CGPoint worldCoord = [self.parent.parent.parent.parent convertToWorldSpace: self.position];
@@ -123,16 +117,18 @@
 {
     if (_holdJoint != nil)
     {
-        // releases the joint and lets the catapult snap back
+        // releases the joint
         [_holdJoint invalidate];
         _holdJoint = nil;
     }
+    
+    self.physicsBody.affectedByGravity = true;
     
 }
 
 -(void) touchCancelled:(CCTouch *)touch withEvent:(CCTouchEvent *)event
 {
-    // when touches are cancelled, meaning the user drags their finger off the screen or onto something else, release the catapult
+    // when touches are cancelled, meaning the user drags their finger off the screen or onto something else, release the tile
     [self releaseTile];
 }
 
