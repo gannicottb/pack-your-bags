@@ -45,7 +45,7 @@
     _mouseJointNode = [self.parent.parent.parent.parent getChildByName:@"_mouseJointNode" recursively:true];
     _mouseJointNode.physicsBody.collisionMask = @[];
     
-    winSize = [CCDirector sharedDirector].viewSize;
+    //winSize = [CCDirector sharedDirector].viewSize;
     //CCLOG(@"Win size is %fx%f", winSize.width , winSize.height);
     
     originalPos = self.position;
