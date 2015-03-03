@@ -59,7 +59,7 @@
 
     
     //Load the first level - eventually redirect from a level select menu
-    [self loadNextLevel];
+    [self loadLevel:(_currentLevel)];
     
 }
 
@@ -142,15 +142,41 @@
 
 
 -(void)loadNextLevel{
+    [self loadLevel:(_currentLevel++%_numLevels)];
+//    //Reset values and counters to defaults, get rid of the lid
+//    [self resetWorld];
+//    
+//    //Load the level as a scene
+//    CCScene *level = [CCBReader loadAsScene:
+//                      [NSString stringWithFormat:@"Levels/Level%i", _currentLevel++%_numLevels]];
+//    
+//    _timeLimit = ((Level*)[level getChildByName:(@"tiles") recursively:false]).timeLimit;
+//    //_timeLimit = 10.0; //TODO: load this from the level instead
+//    //Add the level to the scene
+//    [_levelNode addChild:level];
+//    //Count the tiles in the level
+//    NSArray *tiles = [_levelNode getChildByName:@"tiles" recursively:true].children;
+//    for (CCNode* node in tiles){
+//        if ([node isKindOfClass:[Tile class]]){
+//            _tilesInLevel++;
+//        }
+//    }
+//    CCLOG(@"%li tiles in this level", (long)_tilesInLevel);
+//    
+//    _levelTimer = [self schedule:@selector(updateTimer:) interval: 1.0];
+//    
+//    _levelLoaded = YES;
+}
+
+-(void)loadLevel:(int)index{
     //Reset values and counters to defaults, get rid of the lid
     [self resetWorld];
     
     //Load the level as a scene
     CCScene *level = [CCBReader loadAsScene:
-                      [NSString stringWithFormat:@"Levels/Level%i", _currentLevel++%_numLevels]];
+                      [NSString stringWithFormat:@"Levels/Level%i", index]];
     
     _timeLimit = ((Level*)[level getChildByName:(@"tiles") recursively:false]).timeLimit;
-    //_timeLimit = 10.0; //TODO: load this from the level instead
     //Add the level to the scene
     [_levelNode addChild:level];
     //Count the tiles in the level
@@ -165,7 +191,10 @@
     _levelTimer = [self schedule:@selector(updateTimer:) interval: 1.0];
     
     _levelLoaded = YES;
+
+    
 }
+
 -(void)updateTimer:(CCTime)delta{
     //this is called every second
                         
@@ -184,6 +213,7 @@
         //ran out of time
         CCLOG(@"You lose!");
         //reload the level?
+        [self loadLevel:_currentLevel%_numLevels ];
     }
     
 }
@@ -193,6 +223,7 @@
     _tilesInLevel = 0;
     _levelLoaded = NO;
     
+    [_levelNode removeAllChildren];
     
     [self unschedule:@selector(updateTimer:)];
     _timerLabel.color = CCColor.whiteColor;
