@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Apportable. All rights reserved.
 //
 
-#import "Grid.h"
+#import "Level.h"
 #import "Tile.h"
 #import "Gameplay.h"
 #import "CCPhysics+ObjectiveChipmunk.h"
@@ -148,7 +148,9 @@
     //Load the level as a scene
     CCScene *level = [CCBReader loadAsScene:
                       [NSString stringWithFormat:@"Levels/Level%i", _currentLevel++%_numLevels]];
-    _timeLimit = 20.0; //TODO: load this from the level instead
+    
+    _timeLimit = ((Level*)[level getChildByName:(@"tiles") recursively:false]).timeLimit;
+    //_timeLimit = 10.0; //TODO: load this from the level instead
     //Add the level to the scene
     [_levelNode addChild:level];
     //Count the tiles in the level
@@ -169,7 +171,7 @@
                         
     if(_timeLimit >= 0){
         //CCLOG(@"updateTimer: %f", _timeLimit);
-        if(_timeLimit <= 5.0){
+        if(_timeLimit <= 3.0){
             _timerLabel.color = CCColor.redColor;
         }
         _timerLabel.string = [NSString stringWithFormat:@"%.0f", _timeLimit--];
@@ -191,7 +193,9 @@
     _tilesInLevel = 0;
     _levelLoaded = NO;
     
+    
     [self unschedule:@selector(updateTimer:)];
+    _timerLabel.color = CCColor.whiteColor;
     
     if (_lid != nil){
         [_lid removeFromParent];

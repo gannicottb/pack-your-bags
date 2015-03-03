@@ -7,7 +7,7 @@
 //
 
 #import "MainScene.h"
-#import "Grid.h"
+
 
 @implementation MainScene {
     //Grid *_grid;
