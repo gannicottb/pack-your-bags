@@ -49,4 +49,17 @@ Completed GDD (this document)
 Week 2 (2/24)
 Playable build of Pack Your Bags!
 
-Week 3 (2/)
+Week 3 (3/3)
+Solution detection and scoring based on timer
+
+Week 4 (3/10)
+Improve the means of pulling the items out
+
+Week 5 (3/17)
+
+Week 6 (3/24)
+
+Week 7 (3/31)
+
+Week 8 (4/7)
+Final build
