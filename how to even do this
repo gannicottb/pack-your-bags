@@ -35,3 +35,58 @@ Is there just a simpler way to do this, or a simpler game that I can make?
 Listen for collision with lid on both of the sensors
 Create a sensor inside the box, add bool _inTheBox member var to Tile. Toggle based on collision with boxSensor
 
+
+
+
+Advanced Topics in Objective C.
+
+Singletons - share info across classes nicely
+----------
+
+@interface GameState : NSObject
++ (instancetype)sharedInstance;
+@property(nonatomic, assign) NSInteger coins;
+@end
+
+
+[GameState sharedInstance].coins += 1;
+
+Connecting Objects
+------------------
+
+One object can sign up for updated by another object
+
+Example: multiple gameplay variations that use the same control
+@interface NumberChooser : NSObject
+@property (weak) Gameplay *gameplay;
+@end
+
+...
+CCNode gameplay = (Gameplay*)[CCBReader load: @"gameplay"]
+NumberChooser.gameplay = gameplay;
+...
+
+Notifications
+-------------
+
+Broadcast notification, subscribe, respond through NSNotificationCenter
+
+Configuration Over Code
+-----------------------
+
+Store game content in xml, json, or .plist file
+NSString *path = [[NSBundle mainBundle] pathForResource:@"Statements" ofType: @"plist"];
+_statements = [NSArray arrayWithContentsOfFile:path];
+
+NSUserDefaults
+--------------
+
+Persist data between app sessions (not wiped until uninstalled)
+synchronize forces a save (expensive call, but sometimes you need to make sure the data is saved)
+Can only save NSObjects (NSIntegers, NSStrings, etc)
+You can save all relevant game state into a NSDictionary, then persist that in NSUserDefaults
+
+Organization
+------------
+
+#pragma mark - custom annotation that shows method dropdown

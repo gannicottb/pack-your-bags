@@ -53,13 +53,18 @@ Week 3 (3/3)
 Solution detection and scoring based on timer
 
 Week 4 (3/10)
-Improve the means of pulling the items out
+Improve the means of pulling the items out, improve ease of play
+End of level result screen
 
 Week 5 (3/17)
+Rotation of pieces
+Level select screen
 
 Week 6 (3/24)
+Add theme to the levels (art, text, animations)
 
 Week 7 (3/31)
+
 
 Week 8 (4/7)
 Final build

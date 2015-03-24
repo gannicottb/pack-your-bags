@@ -31,16 +31,14 @@
     
     CCNode *_inBagSensor;
     CGFloat _bagSensorY;
-    bool _levelLoaded;
     
-    NSInteger _tilesInBag;
-    NSInteger _tilesInLevel;
+    CGFloat _tilesInBag;
+    CGFloat _tilesInLevel;
     
     
 }
 
 - (void)didLoadFromCCB {
-    _levelLoaded = NO;
     // tell this scene to accept touches
     self.userInteractionEnabled = TRUE;
     
@@ -49,56 +47,41 @@
     _physicsNode.collisionDelegate = self;
     
     //Set our sensors
-    _closeSensorL.physicsBody.sensor = true;
-    _closeSensorR.physicsBody.sensor = true;
+    //_closeSensorL.physicsBody.sensor = true;
+    //_closeSensorR.physicsBody.sensor = true;
     _inBagSensor.physicsBody.sensor = true;
     _bagSensorY = _inBagSensor.positionInPoints.y + _inBagSensor.contentSizeInPoints.height;
     
     _numLevels = 3;
     _currentLevel = 0;
-
     
     //Load the first level - eventually redirect from a level select menu
     [self loadLevel:(_currentLevel)];
     
 }
 
+#pragma mark - Update loop callback
+
 - (void)update:(CCTime)delta
 {
     
-    
-    if(_levelLoaded){
-//        bool allBelowLine = YES;
-//        CGFloat bagSensorY = _inBagSensor.positionInPoints.y + _inBagSensor.contentSizeInPoints.height;
-//        NSArray *tiles = [_levelNode getChildByName:@"tiles" recursively:true].children;
-//        for (CCNode* node in tiles){
-//            CGFloat nodeTopY = node.positionInPoints.y + node.contentSizeInPoints.height/2;
-//            CGFloat fudge = 1.0;
-//            //CCLOG(@"tileY %f vs bagY %f", nodeTopY, bagSensorY);
-//            if ([node isKindOfClass:[Tile class]] && (nodeTopY > (bagSensorY + fudge))){
-//                allBelowLine = NO; // at least this node is sticking over the edge
-//            }
-//        }
-//        //Hey, check for win why don't we
-//        if(allBelowLine && _tilesInBag == _tilesInLevel){
-//            CCLOG(@"You win!");
-//            [self next];
-//        }
-        if([self checkForWin]){
-            CCLOG(@"You win!");
-            [self next];
-        }
+    if([self checkForWin]){
+        CCLOG(@"You win!");
+        [self next];
     }
+    
 }
 
+#pragma mark - Returns whether all tiles are in the bag
+
 -(BOOL)checkForWin{
+//bool checkForWin(){
     //iterate over all Tiles
     //If no tile's topmost y coord is above bagsensor's topmost y coord
     //and _tilesInBag == _tilesInLevel
     //then we win
     bool win = NO;
     bool allBelowLine = YES;
-    //CGFloat bagSensorY = _inBagSensor.positionInPoints.y + _inBagSensor.contentSizeInPoints.height;
     NSArray *tiles = [_levelNode getChildByName:@"tiles" recursively:true].children;
     for (CCNode* node in tiles){
         CGFloat nodeTopY = node.positionInPoints.y + node.contentSizeInPoints.height/2;
@@ -116,9 +99,7 @@
 
 }
 
-
-
-// implement collision callback methods here, for example:
+#pragma mark - Handle when tile enters the bag
 
 -(BOOL) ccPhysicsCollisionBegin:(CCPhysicsCollisionPair*)pair tile:(Tile*)t bag:(CCNode*)b {
     t.inBag = true;
@@ -127,6 +108,8 @@
     return YES;
 }
 
+#pragma mark - Handle when tile leaves the bag
+
 -(BOOL) ccPhysicsCollisionSeparate:(CCPhysicsCollisionPair*)pair tile:(Tile*)t bag:(CCNode*)b {
     t.inBag = false;
     _tilesInBag--;
@@ -134,39 +117,21 @@
     return YES;
 }
 
+#pragma mark - Next selector that removes all children and loads next level
+
 - (void) next {
+    #pragma mark - TODO: why do I need this call?
     [_levelNode removeAllChildren];
-    _levelLoaded = NO;
     [self loadNextLevel];
 }
 
+#pragma mark - Convenience method for loading the next level (loops)
 
 -(void)loadNextLevel{
-    [self loadLevel:(_currentLevel++%_numLevels)];
-//    //Reset values and counters to defaults, get rid of the lid
-//    [self resetWorld];
-//    
-//    //Load the level as a scene
-//    CCScene *level = [CCBReader loadAsScene:
-//                      [NSString stringWithFormat:@"Levels/Level%i", _currentLevel++%_numLevels]];
-//    
-//    _timeLimit = ((Level*)[level getChildByName:(@"tiles") recursively:false]).timeLimit;
-//    //_timeLimit = 10.0; //TODO: load this from the level instead
-//    //Add the level to the scene
-//    [_levelNode addChild:level];
-//    //Count the tiles in the level
-//    NSArray *tiles = [_levelNode getChildByName:@"tiles" recursively:true].children;
-//    for (CCNode* node in tiles){
-//        if ([node isKindOfClass:[Tile class]]){
-//            _tilesInLevel++;
-//        }
-//    }
-//    CCLOG(@"%li tiles in this level", (long)_tilesInLevel);
-//    
-//    _levelTimer = [self schedule:@selector(updateTimer:) interval: 1.0];
-//    
-//    _levelLoaded = YES;
+    [self loadLevel:(++_currentLevel%_numLevels)];
 }
+
+#pragma mark - Loads level using CCBReader based on supplied numeric index
 
 -(void)loadLevel:(int)index{
     //Reset values and counters to defaults, get rid of the lid
@@ -189,11 +154,11 @@
     CCLOG(@"%li tiles in this level", (long)_tilesInLevel);
     
     _levelTimer = [self schedule:@selector(updateTimer:) interval: 1.0];
-    
-    _levelLoaded = YES;
 
     
 }
+
+#pragma mark - Timer update method
 
 -(void)updateTimer:(CCTime)delta{
     //this is called every second
@@ -211,17 +176,18 @@
         [self next];
     }else{
         //ran out of time
-        CCLOG(@"You lose!");
+        CCLOG(@"You lose! %.1f of tiles placed  of level", (_tilesInBag/_tilesInLevel)*100.0);
         //reload the level?
+        
         [self loadLevel:_currentLevel%_numLevels ];
     }
     
 }
 
+#pragma mark - Reset the tile counters, throw out old level, unschedule timer, remove lid
+
 -(void)resetWorld{
-    _tilesInBag = 0;
-    _tilesInLevel = 0;
-    _levelLoaded = NO;
+    _tilesInBag = _tilesInLevel = 0;
     
     [_levelNode removeAllChildren];
     
