@@ -44,27 +44,27 @@ Milestones
 ----------
 
 Week 1 (2/17)
-Completed GDD (this document)
+* Completed GDD (this document)
 
 Week 2 (2/24)
-Playable build of Pack Your Bags!
+* Playable build of Pack Your Bags!
 
 Week 3 (3/3)
-Solution detection and scoring based on timer
+* Solution detection and scoring based on timer
 
 Week 4 (3/10)
-Improve the means of pulling the items out, improve ease of play
-End of level result screen
+* Improve the means of pulling the items out, improve ease of play
+* End of level result screen
 
 Week 5 (3/17)
-Rotation of pieces
-Level select screen
+* Rotation of pieces
+* Level select screen
 
 Week 6 (3/24)
-Add theme to the levels (art, text, animations)
+* Add theme to the levels (art, text, animations)
 
 Week 7 (3/31)
 
 
 Week 8 (4/7)
-Final build
+* Final build
