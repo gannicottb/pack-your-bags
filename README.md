@@ -64,7 +64,7 @@ Week 6 (3/24)
 * Add theme to the levels (art, text, animations)
 
 Week 7 (3/31)
-
+* Complete missed milestones
 
 Week 8 (4/7)
 * Final build
