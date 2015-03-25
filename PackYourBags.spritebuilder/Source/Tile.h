@@ -12,6 +12,7 @@
 
 @property (nonatomic, assign) bool inBag;
 
+
 - (void)releaseTile;
 
 @end

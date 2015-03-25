@@ -39,12 +39,14 @@
     self.inBag = false;
     
     self.userInteractionEnabled = true;
+//    self.exclusiveTouch = true;
+    
     
     self.physicsBody.allowsRotation = false;
 
     _mouseJointNode = [self.parent.parent.parent.parent getChildByName:@"_mouseJointNode" recursively:true];
     _mouseJointNode.physicsBody.collisionMask = @[];
-    
+        
     //winSize = [CCDirector sharedDirector].viewSize;
     //CCLOG(@"Win size is %fx%f", winSize.width , winSize.height);
     
@@ -55,6 +57,7 @@
 
 - (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event
 {
+    
     
     CGPoint touchLocation = [touch locationInNode:self.parent];
    
@@ -69,8 +72,9 @@
     // create a joint to hold the tile until the user releases the touch
     _holdJoint = [CCPhysicsJoint connectedPivotJointWithBodyA:self.physicsBody bodyB:_mouseJointNode.physicsBody anchorA:self.anchorPointInPoints];
     _holdJoint.maxForce = 60000.0; //this makes it way less jittery
+    //[super touchBegan:touch withEvent:event];
     
-    }
+}
 
 - (void)touchMoved:(CCTouch *)touch withEvent:(CCTouchEvent *)event
 {

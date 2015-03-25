@@ -35,6 +35,8 @@
     CGFloat _tilesInBag;
     CGFloat _tilesInLevel;
     
+    bool touchedYet;
+    
     
 }
 
@@ -43,7 +45,7 @@
     self.userInteractionEnabled = TRUE;
     
     //Physics settings
-    _physicsNode.debugDraw = NO;
+    _physicsNode.debugDraw = YES;
     _physicsNode.collisionDelegate = self;
     
     //Set our sensors
@@ -55,10 +57,17 @@
     _numLevels = 3;
     _currentLevel = 0;
     
+    touchedYet = NO; //User hasn't touched the screen yet
+    _timerLabel.visible = NO; //Can't see timer yet
+   [self setZOrder:1];
+    
+    
     //Load the first level - eventually redirect from a level select menu
     [self loadLevel:(_currentLevel)];
     
 }
+
+
 
 #pragma mark - Update loop callback
 
@@ -97,6 +106,20 @@
     
     return win;
 
+}
+
+#pragma mark - Detect first touch
+- (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event
+{
+    NSLog(@"Touched gameplay");
+    if(!touchedYet){
+        touchedYet = YES;
+        //Schedule timer only after first click
+        _levelTimer = [self schedule:@selector(updateTimer:) interval: 1.0];
+        _timerLabel.visible = YES;
+        
+    }
+    //[super touchBegan:touch withEvent:event];
 }
 
 #pragma mark - Handle when tile enters the bag
@@ -153,7 +176,7 @@
     }
     CCLOG(@"%li tiles in this level", (long)_tilesInLevel);
     
-    _levelTimer = [self schedule:@selector(updateTimer:) interval: 1.0];
+    
 
     
 }
@@ -193,6 +216,9 @@
     
     [self unschedule:@selector(updateTimer:)];
     _timerLabel.color = CCColor.whiteColor;
+    
+    touchedYet = NO;
+    _timerLabel.visible = NO;
     
     if (_lid != nil){
         [_lid removeFromParent];
