@@ -10,9 +10,9 @@
 
 @interface Tile : CCNode
 
-@property (nonatomic, assign) bool inBag;
+//@property (nonatomic, assign) bool inBag;
 
 
-- (void)releaseTile;
+//- (void)releaseTile;
 
 @end

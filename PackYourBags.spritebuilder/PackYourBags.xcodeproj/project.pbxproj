@@ -96,6 +96,8 @@
 		D34C7AAE1A9433E4007D7AB2 /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = D34C7AAA1A9433E4007D7AB2 /* Tile.m */; };
 		D34C7AB81A944CE5007D7AB2 /* Gameplay.m in Sources */ = {isa = PBXBuildFile; fileRef = D34C7AB71A944CE5007D7AB2 /* Gameplay.m */; };
 		D34C7AC11AA55919007D7AB2 /* Level.m in Sources */ = {isa = PBXBuildFile; fileRef = D34C7AC01AA55919007D7AB2 /* Level.m */; };
+		D34C7ACA1AC3378D007D7AB2 /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = D34C7AC91AC3378D007D7AB2 /* Item.m */; };
+		D34C7ACE1AC33A64007D7AB2 /* Bag.m in Sources */ = {isa = PBXBuildFile; fileRef = D34C7ACD1AC33A64007D7AB2 /* Bag.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -211,6 +213,10 @@
 		D34C7AB71A944CE5007D7AB2 /* Gameplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Gameplay.m; path = Source/Gameplay.m; sourceTree = "<group>"; };
 		D34C7ABF1AA55919007D7AB2 /* Level.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Level.h; path = Source/Level.h; sourceTree = "<group>"; };
 		D34C7AC01AA55919007D7AB2 /* Level.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Level.m; path = Source/Level.m; sourceTree = "<group>"; };
+		D34C7AC81AC3378D007D7AB2 /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Item.h; path = Source/Item.h; sourceTree = "<group>"; };
+		D34C7AC91AC3378D007D7AB2 /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Item.m; path = Source/Item.m; sourceTree = "<group>"; };
+		D34C7ACC1AC33A64007D7AB2 /* Bag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Bag.h; path = Source/Bag.h; sourceTree = "<group>"; };
+		D34C7ACD1AC33A64007D7AB2 /* Bag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Bag.m; path = Source/Bag.m; sourceTree = "<group>"; };
 		D352B48019EC608A00829775 /* MetalShaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MetalShaders; path = Source/MetalShaders; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -407,6 +413,10 @@
 				D34C7AAA1A9433E4007D7AB2 /* Tile.m */,
 				D34C7AB61A944CE5007D7AB2 /* Gameplay.h */,
 				D34C7AB71A944CE5007D7AB2 /* Gameplay.m */,
+				D34C7AC81AC3378D007D7AB2 /* Item.h */,
+				D34C7AC91AC3378D007D7AB2 /* Item.m */,
+				D34C7ACC1AC33A64007D7AB2 /* Bag.h */,
+				D34C7ACD1AC33A64007D7AB2 /* Bag.m */,
 				D34C7ABF1AA55919007D7AB2 /* Level.h */,
 				D34C7AC01AA55919007D7AB2 /* Level.m */,
 				D352B48019EC608A00829775 /* MetalShaders */,
@@ -777,6 +787,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D34C7ACE1AC33A64007D7AB2 /* Bag.m in Sources */,
+				D34C7ACA1AC3378D007D7AB2 /* Item.m in Sources */,
 				D34C7AB81A944CE5007D7AB2 /* Gameplay.m in Sources */,
 				D34C7AAB1A9433E4007D7AB2 /* AppDelegate.m in Sources */,
 				B73789871807631A0076A88C /* main.m in Sources */,
