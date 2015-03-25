@@ -1,0 +1,142 @@
+Grid Snapping
+
+Given a "Bag" of X x Y "tiles",
+	we overlay an "alignment grid" that contains the top left coordinates of each tile in the bag.
+
+The size of the bag and the alignment grid are equal.
+
+initialize the alignment grid:
+
+for(int r = 0; i < num_tiles_high; r++){
+	for(int c = 0; c < num_tiles_wide; c++){
+		agrid[r][c] = 0; //this signifies that it is unoccupied
+	}
+}
+
+How to attach alignment grid to the actual bag
+==============================================
+
+Let's say the bag's top left corner is at (50,50). The origin is at bottom left of screen.
+Furthermore, the height and width of a tile is 10.
+
+That means 
+agrid[0][0] is (50, 50). 
+agrid[0][1] is (50+10*1, 50). 
+agrid[0][2] is (50+10*2, 50).
+..
+agrid[1][0] is (50, 50+10*1).
+
+Coordinates of agrid[r][c] = (topLeft.x + (tile_width * c), topLeft.y + (tile_width * r))
+
+
+Now, I think that calculating the position of each alignment point and caching it would be a good idea.
+Therefore, we initialize the alignment grid at the beginning, with the top left coordinate of the bag sprite.
+We store the x and y (worldspace) as an NSMutableDictionary
+So now we modify the initialization to this:
+
+agrid[0] = [NSMutableArray array];
+    for(int r = 0; r < num_tiles_high; r++){
+        agrid[r] = [NSMutableArray array];
+        for(int c = 0; c < num_tiles_wide; c++){
+            agrid[r][c] = [NSMutableDictionary
+                           dictionaryWithDictionary:@{
+                           [NSNumber numberWithDouble:(topLeft.x + tile_width*c)]: @"x",
+                           [NSNumber numberWithDouble:(topLeft.y + tile_width*r)]: @"y",
+                          @NO : @"occupied?"
+                          }];
+            //this is reasonably expensive in terms of memory. maybe better to just do some math.
+            //now instead of doing math, we just do a lookup in memory. More memory usage though.
+        }
+    }
+
+Tabling the caching question now. On with the algorithm.
+
+So, we have the alignment grid, and can find its points in space. 
+Now, we have an item that is some combination of tiles, but has a top left corner.
+When the user lets go of it, we have its location.
+
+We want to find the nearest valid alignment point, and move it such that its top left corner = that alignment point
+
+Valid alignment points are unoccupied and in a row with index <= num_tiles_high - item_height_in_tiles
+	Additionally, points in a column with y less than or greater than a certain threshold are probably not worth checking,
+	but I can't think of a rule right now. something to do with ..
+
+We know where the item's top left corner is. The only options are going to be the 4 alignment points around it.
+How to find those?
+ 
+1 *---*
+  |	  |
+0 *---*
+  0   1
+x >= 0 && x <= 1
+y >= 0 && y <= 1
+
+10 *---*
+   |   |
+5  *---*
+   5   10
+x >= 5 && x <= 10
+y >= 5 && y <= 10
+
+x = 7
+y = 8
+tileSize = 5
+x/tileSize =  1.4 (this means it's somewhere in the second column)
+y/tileSize = 1.6 (this means it's somewhere in the second row)
+The relevant a-points are (1,1), (2,1), (1,2), (2,2)
+
+Math.floor(x/tileSize) = 'low' column index
+Math.floor(x/tileSize)+1 = 'high' column index
+Math.floor(y/tileSize) = 'low' row index
+Math.floor(y/tileSize)+1 = 'high' row index
+
+And those are the only ones we need to check. (Checking for out of bounds, of course)
+
+Do we really need distance formula, now? If the fractional part of x/tileSize is .5 or greater, then 
+col index = Math.floor(x/tileSize)+1
+else
+col index = Math.floor(x/tileSize)
+
+So basically, we round to nearest whole number, and that is the closest index. lroundf
+
+
+We want to find the alignment point that is closest to the topLeft corner of the item, and set its location (anchored top left) = that alignment point's x and y.
+
+Example Implementation
+======================
+
+onTouchEnded(){
+
+	int tileSize;
+
+	CGPoint item_pos; //assuming this is top left corner
+
+	if(!CGRectIntersectsRect( [bag boundingBox], [item boundingBox] )){
+		return; //don't snap unless we're at least touching the bag
+	}
+
+	//Find closest alignment point
+	//Crap, forgot to check to see if it was occupied or not
+	
+	//Actually need a loop to iterate over the four possible snap locations
+	
+	int col_index = lroundf(item_pos.x/tileSize);
+	int row_index = lroundf(item_pos.y/tileSize);
+	NSMutableDictionary alignment_point = agrid[row_index][col_index];
+
+	//Snap the item
+	item.location = ccp(alignment_point[@'x'], alignment_point[@'y']);
+	//Instead of occupied, just use CGRectIntersectsRect to make sure there's no overlap with another item
+	agrid[row_index][col_index][@"occupied"] = YES;
+	//What about the rest of the alignment points that are now covered?
+
+}
+
+
+
+
+
+
+
+
+
