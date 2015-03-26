@@ -125,20 +125,23 @@
         
         // Decide which cells in _agrid are occupied.
         NSArray *tiles = item.children;
-        
+        CGPoint item_bottom_left_corner = CGPointMake(item.positionInPoints.x - item.contentSizeInPoints.width/2,
+                                                      item.positionInPoints.y - item.contentSizeInPoints.height/2);
         for(CCNode* tile in tiles){
             
             // Iterate over the tiles in the item
             // Each one that is in the bag should mark the cell beneath it occupied
             
             CGPoint tile_pos = tile.positionInPoints;
-            CCLOG(@"tile_bottom_left_corner: %f, %f", tile_pos.x - tile.contentSizeInPoints.width/2 ,
-                  tile_pos.y - tile.contentSizeInPoints.height/2);
-            int col_index = (tile_pos.x + item.positionInPoints.x - tile.contentSizeInPoints.width/2)/tileWidth;
-            int row_index = numTilesHigh - (tile_pos.y + item.positionInPoints.y - tile.contentSizeInPoints.height/2)/tileHeight;
+            CGPoint tile_bottom_left_corner = CGPointMake(tile_pos.x - tile.contentSizeInPoints.width/2,
+                                                          tile_pos.y - tile.contentSizeInPoints.height/2);
+            CCLOG(@"tile_bottom_left_corner: %f, %f", tile_bottom_left_corner.x , tile_bottom_left_corner.y);
             
-            CCLOG(@"grid[%d][%d] occupied", row_index, col_index-1);
-            _agrid[row_index][col_index][@"occupied"] = @YES;
+            int col_index = (item_bottom_left_corner.x + tile_bottom_left_corner.x)/tileWidth;
+            int row_index = numTilesHigh - 1 - (item_bottom_left_corner.y + tile_bottom_left_corner.y)/tileHeight;
+            
+            CCLOG(@"grid[%d][%d] occupied", row_index, col_index);
+            // _agrid[row_index][col_index][@"occupied"] = @YES;
         }
         
         
