@@ -7,7 +7,7 @@
 //
 
 #import "Bag.h"
-//#import "Item.h"
+#import "Tile.h"
 #import <Math.h>
 
 @implementation Bag{
@@ -48,8 +48,6 @@
                             dictionaryWithDictionary:@{
 //                           @"position":[NSValue valueWithCGPoint:CGPointMake(bottomLeft.x + tileWidth * c, bottomLeft.y + tileHeight * r)],
                            @"position":[NSValue valueWithCGPoint:CGPointMake(tileWidth * c, tileHeight * r)],
-//                            [NSNumber numberWithFloat:(bottomLeft.x + tileWidth * c)]: @"x",
-//                            [NSNumber numberWithFloat:(bottomLeft.y + tileHeight * r)]: @"y",
                             @"occupied":@NO
                             }];
         }
@@ -121,15 +119,35 @@
     if(dropPosition.x >= 0 && dropPosition.y >= 0){
         //Bombs away!
         
-        //remove item from level node
+        //remove item from its parent node
         [item removeFromParentAndCleanup:NO];
         
-        // add the removed node to its new parent node
+        // add the item to the bag
         [self addChild:item];
         
+        //Set the position of the item (the actual snapping)
         dropPosition.x += item.contentSizeInPoints.width/2;
         dropPosition.y += item.contentSizeInPoints.height/2;
         [item setPosition: dropPosition];
+        
+        // Decide which cells in _agrid are occupied.
+        NSArray *tiles = item.children;
+        
+        for(CCNode* tile in tiles){
+            
+            // Iterate over the tiles in the item
+            // Each one that is in the bag should mark the cell beneath it occupied
+            
+            CGPoint tile_pos = tile.positionInPoints;
+            CCLOG(@"tile_bottom_left_corner: %f, %f", tile_pos.x - tile.contentSizeInPoints.width/2 ,
+                  tile_pos.y - tile.contentSizeInPoints.height/2);
+            int row_index = (tile_pos.x + item.positionInPoints.x - tile.contentSizeInPoints.width/2)/tileWidth;
+            int col_index = (tile_pos.y + item.positionInPoints.y - tile.contentSizeInPoints.height/2)/tileHeight;
+            
+            CCLOG(@"grid[%d][%d] occupied", row_index, col_index);
+            _agrid[col_index][row_index][@"occupied"] = @YES;
+        }
+        
         
         return YES;
     }
