@@ -10,13 +10,13 @@
 
 @implementation Tile{
     
-    CGSize winSize;
+    //CGSize winSize;
    
     CGPoint originalPos;
     
    
-    CCNode *_mouseJointNode;
-    CCPhysicsJoint *_holdJoint;
+//    CCNode *_mouseJointNode;
+//    CCPhysicsJoint *_holdJoint;
 }
 //
 //- (id)init {
@@ -35,7 +35,7 @@
     
     //self.inBag = false;
     
-    self.userInteractionEnabled = true;
+    //self.userInteractionEnabled = true;
 //    self.exclusiveTouch = true;
     
     
@@ -48,7 +48,7 @@
     //CCLOG(@"Win size is %fx%f", winSize.width , winSize.height);
     
     originalPos = self.position;
-    CCLOG(@"Tile loaded at %f,%f", originalPos.x, originalPos.y);
+    //CCLOG(@"Tile loaded at %f,%f", originalPos.x, originalPos.y);
     
 }
 
@@ -127,15 +127,15 @@
 //    
 //}
 
--(void) touchCancelled:(CCTouch *)touch withEvent:(CCTouchEvent *)event
-{
-    // when touches are cancelled, meaning the user drags their finger off the screen or onto something else, release the tile
-    //[self releaseTile];
-}
+//-(void) touchCancelled:(CCTouch *)touch withEvent:(CCTouchEvent *)event
+//{
+//    // when touches are cancelled, meaning the user drags their finger off the screen or onto something else, release the tile
+//    //[self releaseTile];
+//}
 
--(void)touchEnded:(CCTouch *)touch withEvent:(CCTouchEvent *)event
-{
-    //[self releaseTile];
-    
-}
+//-(void)touchEnded:(CCTouch *)touch withEvent:(CCTouchEvent *)event
+//{
+//    //[self releaseTile];
+//    
+//}
 @end

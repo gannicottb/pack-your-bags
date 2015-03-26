@@ -80,6 +80,11 @@
 		</dict>
 		<key>Assets/blocks/element_blue_rectangle.png</key>
 		<dict/>
+		<key>Assets/leather_bag.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>1</integer>
+		</dict>
 		<key>Sprites</key>
 		<dict/>
 		<key>ccbResources</key>

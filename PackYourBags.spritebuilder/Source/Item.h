@@ -7,7 +7,8 @@
 //
 
 #import "CCNode.h"
+#import "Bag.h"
 
 @interface Item : CCNode
-
+- (CGPoint)snapCornerPositionInPoints;
 @end

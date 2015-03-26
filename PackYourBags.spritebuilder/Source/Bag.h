@@ -7,6 +7,7 @@
 //
 
 #import "CCNode.h"
+#import "Item.h"
 
 @interface Bag : CCSprite
 
@@ -14,5 +15,6 @@
 // It also knows if all of the cells are occupied.
 
 - (BOOL)packed;
+- (BOOL)dropItem:(CCNode*)item;
 
 @end

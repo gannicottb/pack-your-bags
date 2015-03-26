@@ -68,7 +68,7 @@
     
     
     //Load the first level - eventually redirect from a level select menu
-    [self loadLevel:(_currentLevel)];
+    //[self loadLevel:(_currentLevel)];
     
 }
 
@@ -114,18 +114,18 @@
 }
 
 #pragma mark - Detect first touch
-- (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event
-{
-    NSLog(@"Touched gameplay");
-//    if(!touchedYet){
-//        touchedYet = YES;
-//        //Schedule timer only after first click
-//        _levelTimer = [self schedule:@selector(updateTimer:) interval: 1.0];
-//        _timerLabel.visible = YES;
-//        
-//    }
-    //[super touchBegan:touch withEvent:event];
-}
+//- (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event
+//{
+//    NSLog(@"Touched gameplay");
+////    if(!touchedYet){
+////        touchedYet = YES;
+////        //Schedule timer only after first click
+////        _levelTimer = [self schedule:@selector(updateTimer:) interval: 1.0];
+////        _timerLabel.visible = YES;
+////        
+////    }
+//    //[super touchBegan:touch withEvent:event];
+//}
 
 #pragma mark - Handle when tile enters the bag
 
@@ -166,24 +166,24 @@
     [self resetWorld];
     
     //Load the level as a scene
-    CCScene *level = [CCBReader loadAsScene:
-                      [NSString stringWithFormat:@"Levels/LevelNew%i", index]];
+    //CCScene *level = [CCBReader loadAsScene:
+    //                      [NSString stringWithFormat:@"Levels/LevelNew%i", index]];
     
-    _timeLimit = ((Level*)[level getChildByName:(@"tiles") recursively:false]).timeLimit;
+    Level *level = (Level*)[CCBReader load:[NSString stringWithFormat:@"Levels/LevelNew%i", index]];
+    
+    //_timeLimit = ((Level*)[level getChildByName:(@"items") recursively:false]).timeLimit;
+    _timeLimit = level.timeLimit;
     //Add the level to the scene
     [_levelNode addChild:level];
     //Count the items in the level
-    NSArray *items = [_levelNode getChildByName:@"items" recursively:true].children;
+    //NSArray *items = [_levelNode getChildByName:@"items" recursively:true].children;
+    NSArray *items = level.children;
     for (CCNode* node in items){
         if ([node isKindOfClass:[Item class]]){
             _itemsInLevel++;
         }
     }
-    CCLOG(@"%li tiles in this level", (long)_itemsInLevel);
-    
-    
-
-    
+    CCLOG(@"%li items in this level", (long)_itemsInLevel);
 }
 
 #pragma mark - Timer update method
