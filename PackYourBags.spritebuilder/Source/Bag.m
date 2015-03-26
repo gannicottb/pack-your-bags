@@ -39,28 +39,22 @@
     
     //The grid is an array of bottom left points to enable snapping
     
-    _agrid = [NSMutableArray array];
+    _agrid = [NSMutableArray arrayWithCapacity:numTilesHigh];
     for(int r = 0; r < numTilesHigh; r++){
-        _agrid[r] = [NSMutableArray array];
+        _agrid[r] = [NSMutableArray arrayWithCapacity:numTilesWide];
         for(int c = 0; c < numTilesWide; c++){
-            
+            //do the rows(y axis) inverted
+            CGFloat cache_x = tileWidth * c;
+            CGFloat cache_y = tileHeight * (numTilesHigh - 1 - r);
             _agrid[r][c] = [NSMutableDictionary
                             dictionaryWithDictionary:@{
 //                           @"position":[NSValue valueWithCGPoint:CGPointMake(bottomLeft.x + tileWidth * c, bottomLeft.y + tileHeight * r)],
-                           @"position":[NSValue valueWithCGPoint:CGPointMake(tileWidth * c, tileHeight * r)],
+                           @"position":[NSValue valueWithCGPoint:CGPointMake(cache_x, cache_y)],
                             @"occupied":@NO
                             }];
+            CCLOG(@"[%d][%d] = (%f, %f)", r, c, cache_x, cache_y);
         }
     }
-    
-    //Grid can now be used like this:
-    //_agrid[0][0][@"occupied"]
-    //_agrid[0][0][@"pos"]
-    //[_agrid[0][0][@"pos"] CGPointValue].x
-    //[_agrid[0][0][@"pos"] CGPointValue].y
-   
-    
-    
 }
 
 -(BOOL)packed{
@@ -91,17 +85,16 @@
     
     CGRect itembox = [item boundingBox];
     itembox.origin = itemPosition;
-    CGRect bagbox = [self boundingBox];
     
     if(!CGRectIntersectsRect( [self boundingBox], itembox )){
         return NO; //don't snap unless we're at least touching the bag
     }
     
-    int lowRow = floor(itemPosition.y/tileHeight);
-    int lowCol = floor(itemPosition.x/tileWidth);
+    int lowRow = numTilesHigh - 1 - floor(itemPosition.y/tileHeight);
+    int leftmostCol = floor(itemPosition.x/tileWidth);
     CGFloat minDistance = 10000;
-    for(int r = lowRow; r <= lowRow+1; r++){
-        for(int c = lowCol; c <= lowCol+1; c++){
+    for(int r = lowRow - 1; r <= lowRow; r++){ //invert y axis
+        for(int c = leftmostCol; c <= leftmostCol+1; c++){
             if([self inBounds:r col:c] && [_agrid[r][c][@"occupied"] isEqual: @NO]){
                 CGPoint candidate = [_agrid[r][c][@"position"] CGPointValue];
                 CGFloat candidate_dist;
@@ -141,11 +134,11 @@
             CGPoint tile_pos = tile.positionInPoints;
             CCLOG(@"tile_bottom_left_corner: %f, %f", tile_pos.x - tile.contentSizeInPoints.width/2 ,
                   tile_pos.y - tile.contentSizeInPoints.height/2);
-            int row_index = (tile_pos.x + item.positionInPoints.x - tile.contentSizeInPoints.width/2)/tileWidth;
-            int col_index = (tile_pos.y + item.positionInPoints.y - tile.contentSizeInPoints.height/2)/tileHeight;
+            int col_index = (tile_pos.x + item.positionInPoints.x - tile.contentSizeInPoints.width/2)/tileWidth;
+            int row_index = numTilesHigh - (tile_pos.y + item.positionInPoints.y - tile.contentSizeInPoints.height/2)/tileHeight;
             
-            CCLOG(@"grid[%d][%d] occupied", row_index, col_index);
-            _agrid[col_index][row_index][@"occupied"] = @YES;
+            CCLOG(@"grid[%d][%d] occupied", row_index, col_index-1);
+            _agrid[row_index][col_index][@"occupied"] = @YES;
         }
         
         
