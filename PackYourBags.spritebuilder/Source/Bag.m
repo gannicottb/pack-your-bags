@@ -71,7 +71,7 @@
     
     return YES;
 }
-
+#pragma mark - dropItem has some issues with composite items. Check the dropPosition for the item, and other offsets
 /*
  dropItem
  
