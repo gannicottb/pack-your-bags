@@ -673,8 +673,8 @@
 								<string>Position</string>
 								<key>value</key>
 								<array>
-									<real>58.758563995361328</real>
-									<real>169.25650024414062</real>
+									<real>61.048583984375</real>
+									<real>195.48323059082031</real>
 									<integer>0</integer>
 									<integer>0</integer>
 									<integer>0</integer>
@@ -702,6 +702,8 @@
 								<string>Items/Item_1x1.ccb</string>
 							</dict>
 						</array>
+						<key>selected</key>
+						<true/>
 					</dict>
 					<dict>
 						<key>UUID</key>
@@ -735,8 +737,8 @@
 								<string>Position</string>
 								<key>value</key>
 								<array>
-									<real>58.758563995361328</real>
-									<real>60.167232513427734</real>
+									<real>61.048583984375</real>
+									<real>75.5947265625</real>
 									<integer>0</integer>
 									<integer>0</integer>
 									<integer>0</integer>
@@ -764,8 +766,6 @@
 								<string>Items/Item_2x2.ccb</string>
 							</dict>
 						</array>
-						<key>selected</key>
-						<true/>
 					</dict>
 				</array>
 				<key>customClass</key>

@@ -37,14 +37,17 @@
     
     CCLOG(@"TOUCH_BEGAN");
     
-    //_parent = self.parent;
-    //CCLOG(@"_parent set to %@", self.parent.name);
+    // If currently in the bag, needs to unoccupy all of the cells it's sitting on
+#pragma mark - TODO: unoccupy the bag cells on touch began
+    if(self.parent.name isEqualToString:_bag.name){
+        [self.parent removeItem: self];
+    }
     
     CCLOG(@"Removing from %@", self.parent.name);
-    CGPoint pos = [self positionInPoints];
     CGPoint posInGameplay = [_gameplay convertToNodeSpace:[self.parent convertToWorldSpace:self.positionInPoints]];
     [self removeFromParentAndCleanup:NO];
     
+    // Add to Gameplay and preserve previous position
     [_gameplay addChild :self];
     [self setPositionInPoints:posInGameplay];
     CCLOG(@"Added to %@", self.parent);
@@ -89,9 +92,34 @@
 //Item anchor point is in the center, but we need to get the coordinates of its bottom left corner
 - (CGPoint)snapCornerPositionInPoints{
     
-    return [self.parent convertToWorldSpace:CGPointMake(self.positionInPoints.x - self.contentSizeInPoints.width/2,
-                       self.positionInPoints.y - self.contentSizeInPoints.height/2)];
+//    return [self.parent convertToWorldSpace:CGPointMake(self.positionInPoints.x - self.contentSizeInPoints.width/2,
+//                       self.positionInPoints.y - self.contentSizeInPoints.height/2)];
+    return [self.parent convertToWorldSpace: [self bottomLeftCorner]];
+    
+    // Assuming the anchor point lives in the corner.
+    //return [self.parent convertToWorldSpace:self.positionInPoints];
     
 }
+
+- (CGPoint)bottomLeftCorner{
+    //assume position is based on centered anchor
+    return ccp(self.positionInPoints.x - self.contentSizeInPoints.width/2,
+               self.positionInPoints.y - self.contentSizeInPoints.height/2);
+}
+
+//- (void) rotate: (CGFloat) angle{
+//    
+//    //[self centerAndReposition];
+//    
+//    // Now rotate
+//    self.rotation = angle;
+//    CCLOG(@"Item rotated by %f", self.rotation);
+//}
+
+//- (void) centerAndReposition{
+//    // Move anchor to center and reposition
+//    self.anchorPoint = ccp(0.5,0.5);
+//    self.positionInPoints = [self bottomLeftCorner];
+//}
 
 @end

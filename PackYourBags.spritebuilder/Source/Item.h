@@ -11,4 +11,5 @@
 
 @interface Item : CCNode
 - (CGPoint)snapCornerPositionInPoints;
+- (CGPoint)bottomLeftCorner;
 @end
