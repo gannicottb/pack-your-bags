@@ -7,6 +7,7 @@
 //
 
 #import "Item.h"
+#import "Bag.h"
 
 @implementation Item{
     Bag* _bag;
@@ -39,10 +40,12 @@
     
     // If currently in the bag, needs to unoccupy all of the cells it's sitting on
 #pragma mark - TODO: unoccupy the bag cells on touch began
-    if(self.parent.name isEqualToString:_bag.name){
-        [self.parent removeItem: self];
+    if([self.parent isKindOfClass: [Bag class]]){
+        [(Bag*)self.parent liftItem: self];
     }
     
+    
+    // Remove from current parent (either level or bag)
     CCLOG(@"Removing from %@", self.parent.name);
     CGPoint posInGameplay = [_gameplay convertToNodeSpace:[self.parent convertToWorldSpace:self.positionInPoints]];
     [self removeFromParentAndCleanup:NO];
