@@ -101,8 +101,9 @@
     CGRect itembox = [_item boundingBox];
     itembox.origin = itemPosition;
     
-    if(!CGRectIntersectsRect( [self boundingBox], itembox )){
-        return NO; //don't snap unless we're at least touching the bag
+    if(!CGRectIntersectsRect( [self boundingBox], itembox ) || ![self eachTileInItemCanOccupy:_item]){
+        CCLOG(@"Item either not in the bag or can't occupy the cells below it");
+        return NO; //don't snap unless we're at least touching the bag and the tiles in the item can occupy the cells beneath them
     }
     
     int lowRow = numTilesHigh - 1 - floor(itemPosition.y/tileHeight);
@@ -110,8 +111,7 @@
     CGFloat minDistance = 10000;
     for(int r = lowRow - 1; r <= lowRow; r++){ //invert y axis
         for(int c = leftmostCol; c <= leftmostCol+1; c++){
-            if([self inBounds:r col:c] && [_agrid[r][c][@"occupied"] isEqual: @NO]&&
-               [self eachTileInItemCanOccupy:_item]){
+            if([self inBounds:r col:c] && [_agrid[r][c][@"occupied"] isEqual: @NO]){
                 CGPoint candidate = [_agrid[r][c][@"position"] CGPointValue];
                 CGFloat candidate_dist;
                 if((candidate_dist = ccpDistance(itemPosition, candidate)) < minDistance){
