@@ -19,14 +19,10 @@
 
 - (void)didLoadFromCCB {
     CCLOG(@"Item DID_LOAD_FROM_CCB");
-    self.userInteractionEnabled = YES;
-    //_level = self.parent;
-    //_levelNode = _level.parent;
     
-    //_levelNode = self.parent;
-    //_gameplay = _levelNode.parent;
+    self.userInteractionEnabled = YES;
     _originalPos = self.positionInPoints;
-    //_bag = (Bag*)[_gameplay getChildByName:@"_bag" recursively:false];
+    
     CCLOG(@"Item FINISHED LOADING");
 }
 
@@ -104,13 +100,8 @@
 }
 //Item anchor point is in the center, but we need to get the coordinates of its bottom left corner
 - (CGPoint)snapCornerPositionInPoints{
-    
-//    return [self.parent convertToWorldSpace:CGPointMake(self.positionInPoints.x - self.contentSizeInPoints.width/2,
-//                       self.positionInPoints.y - self.contentSizeInPoints.height/2)];
+
     return [self.parent convertToWorldSpace: [self bottomLeftCorner]];
-    
-    // Assuming the anchor point lives in the corner.
-    //return [self.parent convertToWorldSpace:self.positionInPoints];
     
 }
 
@@ -119,20 +110,5 @@
     return ccp(self.positionInPoints.x - self.contentSizeInPoints.width/2,
                self.positionInPoints.y - self.contentSizeInPoints.height/2);
 }
-
-//- (void) rotate: (CGFloat) angle{
-//    
-//    //[self centerAndReposition];
-//    
-//    // Now rotate
-//    self.rotation = angle;
-//    CCLOG(@"Item rotated by %f", self.rotation);
-//}
-
-//- (void) centerAndReposition{
-//    // Move anchor to center and reposition
-//    self.anchorPoint = ccp(0.5,0.5);
-//    self.positionInPoints = [self bottomLeftCorner];
-//}
 
 @end

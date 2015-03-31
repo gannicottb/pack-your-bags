@@ -164,21 +164,23 @@
     CGPoint item_bottom_left_corner = [item bottomLeftCorner];
     
     // Iterate over the tiles in the item
-    for(Tile *tile in item.children){
-        CGPoint tile_bottom_left_corner = [tile bottomLeftCorner];
-        CCLOG(@"tile_bottom_left_corner: %f, %f", tile_bottom_left_corner.x , tile_bottom_left_corner.y);
-        
-        int col_index = (item_bottom_left_corner.x + tile_bottom_left_corner.x)/tileWidth;
-        int row_index = numTilesHigh - 1 - (item_bottom_left_corner.y + tile_bottom_left_corner.y)/tileHeight;
-        
-        //If you want to occupy the cells, they should be unoccupied to begin with, and vice versa.
-        if([self inBounds:row_index col: col_index] && [_agrid[row_index][col_index][@"occupied"] isEqual: @(!occupy)]){
-            _agrid[row_index][col_index][@"occupied"] = @(occupy);
-            CCLOG(@"grid[%d][%d] %s", row_index, col_index, occupy ? "occupied" : "unoccupied");
-        }else{
-            return NO; // Not all tiles occupied/unoccupied
+    for(CCNode* child in item.children){
+        if([child isKindOfClass:[Tile class]]){
+            Tile *tile = (Tile*) child;
+            CGPoint tile_bottom_left_corner = [tile bottomLeftCorner];
+            CCLOG(@"tile_bottom_left_corner: %f, %f", tile_bottom_left_corner.x , tile_bottom_left_corner.y);
+            
+            int col_index = (item_bottom_left_corner.x + tile_bottom_left_corner.x)/tileWidth;
+            int row_index = numTilesHigh - 1 - (item_bottom_left_corner.y + tile_bottom_left_corner.y)/tileHeight;
+            
+            //If you want to occupy the cells, they should be unoccupied to begin with, and vice versa.
+            if([self inBounds:row_index col: col_index] && [_agrid[row_index][col_index][@"occupied"] isEqual: @(!occupy)]){
+                _agrid[row_index][col_index][@"occupied"] = @(occupy);
+                CCLOG(@"grid[%d][%d] %s", row_index, col_index, occupy ? "occupied" : "unoccupied");
+            }else{
+                return NO; // Not all tiles occupied/unoccupied
+            }
         }
-        
     }
     
     return YES; //All tiles occupied/unoccupied
@@ -197,19 +199,22 @@
     CGPoint item_bottom_left_corner = [_agrid[row][col][@"position"] CGPointValue];//[item position];//[item bottomLeftCorner];
     
     // Iterate over the tiles in the item
-    for(Tile* tile in item.children){
+    for(CCNode* child in item.children){
+        if([child isKindOfClass:[Tile class]]){
+            Tile *tile = (Tile*) child;
         
-        CGPoint tile_bottom_left_corner = [tile bottomLeftCorner];
-        
-        CCLOG(@"tile_bottom_left_corner: %f, %f", tile_bottom_left_corner.x , tile_bottom_left_corner.y);
-        
-        int col_index = (item_bottom_left_corner.x + tile_bottom_left_corner.x)/tileWidth;
-        int row_index = numTilesHigh - 1 - (item_bottom_left_corner.y + tile_bottom_left_corner.y)/tileHeight;
-        
-        //If you want to occupy the cells, they should be in bounds and unoccupied
-        if(![self inBounds:row_index col: col_index] || [_agrid[row_index][col_index][@"occupied"] isEqual: @YES]){
-            result = NO; //Can't occupy
-            break;
+            CGPoint tile_bottom_left_corner = [tile bottomLeftCorner];
+            
+            CCLOG(@"tile_bottom_left_corner: %f, %f", tile_bottom_left_corner.x , tile_bottom_left_corner.y);
+            
+            int col_index = (item_bottom_left_corner.x + tile_bottom_left_corner.x)/tileWidth;
+            int row_index = numTilesHigh - 1 - (item_bottom_left_corner.y + tile_bottom_left_corner.y)/tileHeight;
+            
+            //If you want to occupy the cells, they should be in bounds and unoccupied
+            if(![self inBounds:row_index col: col_index] || [_agrid[row_index][col_index][@"occupied"] isEqual: @YES]){
+                result = NO; //Can't occupy
+                break;
+            }
         }
     }
     

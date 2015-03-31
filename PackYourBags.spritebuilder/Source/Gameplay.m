@@ -133,18 +133,19 @@
     
     //CCLOG(@"_levelNode position (%f, %f)", _levelNode.positionInPoints.x, _levelNode.positionInPoints.y);
     
-    //Add the level to the scene
-    //[_levelNode addChild:level];
     
-    NSArray *items = level.children;
+    // Make a copy of the level children so that we don't have mutation during iteration problems
+    NSArray *items = [level.children copy];
     
     CCLOG(@"Adding items to _levelNode");
     
     // Each child in the level should be added as a child to the levelNode
-    for (CCNode *node in items){
+   
+    for( int i = 0; i < items.count; i++){
+        CCNode *node = items[i];
         if ([node isKindOfClass:[Item class]]){
             
-            Item *item = (Item*)node; // Make local copy (to make ARC happy) and cast
+            Item *item = (Item*)node; // Make local reference (to make ARC happy) and cast
             [level removeChild:item cleanup:NO]; //remove item from loaded level node
             [_levelNode addChild:item]; // add item to levelNode
             [item setRefs: self lnode: _levelNode bag: _bag]; //set the references
