@@ -12,18 +12,28 @@
 @implementation Item{
     Bag* _bag;
     CCNode* _levelNode;
+    CCNode* _level;
     CCNode* _gameplay;
     CGPoint _originalPos;
 }
 
 - (void)didLoadFromCCB {
-    CCLOG(@"DID_LOAD_FROM_CCB");
+    CCLOG(@"Item DID_LOAD_FROM_CCB");
     self.userInteractionEnabled = YES;
-    _levelNode = self.parent;
-    _gameplay = _levelNode.parent;
-    _originalPos = self.positionInPoints;
-    _bag = (Bag*)[_gameplay getChildByName:@"_bag" recursively:false];
+    //_level = self.parent;
+    //_levelNode = _level.parent;
     
+    //_levelNode = self.parent;
+    //_gameplay = _levelNode.parent;
+    _originalPos = self.positionInPoints;
+    //_bag = (Bag*)[_gameplay getChildByName:@"_bag" recursively:false];
+    CCLOG(@"Item FINISHED LOADING");
+}
+
+-(void)setRefs:(CCNode *)gameplay lnode:(CCNode *)lnode bag:(CCNode *)bag{
+    _gameplay = gameplay;
+    _levelNode = lnode;
+    _bag = (Bag*) bag;
 }
 
 - (void) onEnter{

@@ -12,4 +12,5 @@
 @interface Item : CCNode
 - (CGPoint)snapCornerPositionInPoints;
 - (CGPoint)bottomLeftCorner;
+- (void) setRefs: (CCNode*) gameplay lnode: (CCNode*) lnode bag:(CCNode*) bag;
 @end

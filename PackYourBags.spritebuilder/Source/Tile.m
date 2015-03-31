@@ -114,6 +114,12 @@
     self.position = originalPos;
 }
 
+- (CGPoint)bottomLeftCorner{
+    //assume position is based on centered anchor
+    return ccp(self.positionInPoints.x - self.contentSizeInPoints.width/2,
+               self.positionInPoints.y - self.contentSizeInPoints.height/2);
+}
+
 //-(void) releaseTile
 //{
 //    if (_holdJoint != nil)

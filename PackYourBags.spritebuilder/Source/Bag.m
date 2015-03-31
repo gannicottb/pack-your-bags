@@ -27,7 +27,6 @@
     
     [self initGrid];
     
-   
 }
 
 -(void)initGrid{
@@ -35,7 +34,7 @@
     //Init grid as described in planning
     CCLOG(@"InitGrid");
     
-    CGPoint bottomLeft = self.positionInPoints;
+    //CGPoint bottomLeft = self.positionInPoints;
     
     //The grid is an array of bottom left points to enable snapping
     
@@ -48,7 +47,6 @@
             CGFloat cache_y = tileHeight * (numTilesHigh - 1 - r);//do the rows(y axis) inverted
             _agrid[r][c] = [NSMutableDictionary
                             dictionaryWithDictionary:@{
-//                           @"position":[NSValue valueWithCGPoint:CGPointMake(bottomLeft.x + tileWidth * c, bottomLeft.y + tileHeight * r)],
                            @"position":[NSValue valueWithCGPoint:CGPointMake(cache_x, cache_y)],
                             @"occupied":@NO
                             }];
@@ -63,7 +61,7 @@
     
     for(int r = 0; r < numTilesHigh; r++){
         for(int c = 0; c < numTilesWide; c++){
-            if([_agrid[0][0][@"occupied"]  isEqual: @NO]){
+            if([_agrid[r][c][@"occupied"]  isEqual: @NO]){
                 return NO;
             }
         }
@@ -81,41 +79,44 @@
  */
 -(BOOL)dropItem: (CCNode *) item{
     Item *_item = (Item*) item;
-    
     BOOL result = NO;
     
     //Calculate the item's position in the bag
     CGPoint itemPosition = [self convertToNodeSpace:[_item snapCornerPositionInPoints]];
     
-    //remove item from its parent node
+    // Remove item from its parent node and add the item to the bag
     [_item removeFromParentAndCleanup:NO];
-    
-    // add the item to the bag
     [self addChild:_item];
     
-    //preserve item position
+    // Preserve item position
     [_item setPosition:itemPosition];
     
+    // Default dropPosition is an error state
     CGPoint dropPosition = CGPointMake(-1, -1);
     
+    // Have to modify the boundingBox origin for some reason
     CGRect itembox = [_item boundingBox];
     itembox.origin = itemPosition;
     
-    if(!CGRectIntersectsRect( [self boundingBox], itembox ) || ![self eachTileInItemCanOccupy:_item]){
-        CCLOG(@"Item either not in the bag or can't occupy the cells below it");
-        return NO; //don't snap unless we're at least touching the bag and the tiles in the item can occupy the cells beneath them
+    // Don't snap unless we're at least touching the bag
+    if(!CGRectIntersectsRect( [self boundingBox], itembox ) ){
+        return NO;
     }
     
+    // Iterate over the four closest snap points to find the correct snap position for the item
     int lowRow = numTilesHigh - 1 - floor(itemPosition.y/tileHeight);
     int leftmostCol = floor(itemPosition.x/tileWidth);
     CGFloat minDistance = 10000;
     for(int r = lowRow - 1; r <= lowRow; r++){ //invert y axis
         for(int c = leftmostCol; c <= leftmostCol+1; c++){
             if([self inBounds:r col:c] && [_agrid[r][c][@"occupied"] isEqual: @NO]){
+                // Candidate snap point is unoccupied and in bounds
                 CGPoint candidate = [_agrid[r][c][@"position"] CGPointValue];
                 CGFloat candidate_dist;
-                if((candidate_dist = ccpDistance(itemPosition, candidate)) < minDistance){
-                    //candidate snap point is in bounds and unoccupied, and distance away is shorter than current minimum
+                
+                if((candidate_dist = ccpDistance(itemPosition, candidate)) < minDistance &&
+                   [self eachTileInItemCanOccupy:_item forRow:r  andCol:c]){
+                    // Candidate snap point is currently the closest and the point would yield a valid placement
                     minDistance = candidate_dist;
                     dropPosition = candidate;
                 }
@@ -125,55 +126,16 @@
     
     // All candidates checked
     
-    // Next, try to occupy the space
+    // Next, if a point was found, snap the position of the item to the chosen snap point and occupy the cells beneath it
     
     if(dropPosition.x >= 0 && dropPosition.y >= 0){
-        //Bombs away!
-        
-//        //remove item from its parent node
-//        [item removeFromParentAndCleanup:NO];
-//        
-//        // add the item to the bag
-//        [self addChild:item];
-        
-        //Set the position of the item (the actual snapping)
-        dropPosition.x += _item.contentSizeInPoints.width/2;
-        dropPosition.y += _item.contentSizeInPoints.height/2;
-        [_item setPosition: dropPosition];
-        
-//        // Decide which cells in _agrid are occupied.
-//        NSArray *tiles = _item.children;
-////        CGPoint item_bottom_left_corner = CGPointMake(item.positionInPoints.x - item.contentSizeInPoints.width/2,
-////                                                      item.positionInPoints.y - item.contentSizeInPoints.height/2);
-//        //CGPoint item_bottom_left_corner = item.positionInPoints;
-//        CGPoint item_bottom_left_corner = [_item bottomLeftCorner];
-//        
-//        for(CCNode* tile in tiles){
-//            
-//            // Iterate over the tiles in the item
-//            // Each one that is in the bag should mark the cell beneath it occupied
-//            
-//            CGPoint tile_pos = tile.positionInPoints;
-//            CGPoint tile_bottom_left_corner = CGPointMake(tile_pos.x - tile.contentSizeInPoints.width/2,
-//                                                          tile_pos.y - tile.contentSizeInPoints.height/2);
-//            CCLOG(@"tile_bottom_left_corner: %f, %f", tile_bottom_left_corner.x , tile_bottom_left_corner.y);
-//            
-//            int col_index = (item_bottom_left_corner.x + tile_bottom_left_corner.x)/tileWidth;
-//            int row_index = numTilesHigh - 1 - (item_bottom_left_corner.y + tile_bottom_left_corner.y)/tileHeight;
-//            
-//            if([self inBounds:row_index col: col_index] && [_agrid[row_index][col_index][@"occupied"] isEqual: @NO]){
-//               //_agrid[row_index][col_index][@"occupied"] = @YES;
-//                CCLOG(@"grid[%d][%d] occupied", row_index, col_index);
-//            }else{
-//               return NO;
-//            }
-//        }
-//        return YES;
+        [_item setPosition: ccp(dropPosition.x + _item.contentSizeInPoints.width/2,
+                                dropPosition.y + _item.contentSizeInPoints.height/2)];
         
         result = [self forEachTileIn:_item occupy:YES];
     }
     
-    // No suitable candidate found
+    // Result will be an error state (-1,-1) if no suitable point was found
     
     return result;
 }
@@ -194,18 +156,16 @@
 /*
  forEachTileIn: item occupy/unoccupy from the grid
  Returns NO as soon as an invalid tile is found
+ 
  */
 
 - (BOOL) forEachTileIn:(Item*) item occupy:(BOOL) occupy{
     
-    NSArray *tiles = item.children;
     CGPoint item_bottom_left_corner = [item bottomLeftCorner];
     
     // Iterate over the tiles in the item
-    for(CCNode* tile in tiles){
-        CGPoint tile_pos = tile.positionInPoints;
-        CGPoint tile_bottom_left_corner = CGPointMake(tile_pos.x - tile.contentSizeInPoints.width/2,
-                                                      tile_pos.y - tile.contentSizeInPoints.height/2);
+    for(Tile *tile in item.children){
+        CGPoint tile_bottom_left_corner = [tile bottomLeftCorner];
         CCLOG(@"tile_bottom_left_corner: %f, %f", tile_bottom_left_corner.x , tile_bottom_left_corner.y);
         
         int col_index = (item_bottom_left_corner.x + tile_bottom_left_corner.x)/tileWidth;
@@ -216,7 +176,7 @@
             _agrid[row_index][col_index][@"occupied"] = @(occupy);
             CCLOG(@"grid[%d][%d] %s", row_index, col_index, occupy ? "occupied" : "unoccupied");
         }else{
-            return NO; //Not all tiles occupied/unoccupied
+            return NO; // Not all tiles occupied/unoccupied
         }
         
     }
@@ -225,29 +185,32 @@
 
 }
 
-- (BOOL) eachTileInItemCanOccupy:(Item*) item{
+/*
+ Tests each tile in an item if placed at row, col in _agrid for validity
+ Returns NO as soon as an invalid tile is found (a tile that is out of bounds or wants to occupy an occupied cell)
+ */
+
+- (BOOL) eachTileInItemCanOccupy:(Item*) item forRow:(int)row andCol:(int)col{
     
     BOOL result = YES;
     
-    NSArray *tiles = item.children;
-    CGPoint item_bottom_left_corner = [item position];//[item bottomLeftCorner];
+    CGPoint item_bottom_left_corner = [_agrid[row][col][@"position"] CGPointValue];//[item position];//[item bottomLeftCorner];
     
     // Iterate over the tiles in the item
-    for(CCNode* tile in tiles){
-        CGPoint tile_pos = tile.positionInPoints;
-        CGPoint tile_bottom_left_corner = CGPointMake(tile_pos.x - tile.contentSizeInPoints.width/2,
-                                                      tile_pos.y - tile.contentSizeInPoints.height/2);
+    for(Tile* tile in item.children){
+        
+        CGPoint tile_bottom_left_corner = [tile bottomLeftCorner];
+        
         CCLOG(@"tile_bottom_left_corner: %f, %f", tile_bottom_left_corner.x , tile_bottom_left_corner.y);
         
         int col_index = (item_bottom_left_corner.x + tile_bottom_left_corner.x)/tileWidth;
         int row_index = numTilesHigh - 1 - (item_bottom_left_corner.y + tile_bottom_left_corner.y)/tileHeight;
         
-        //If you want to occupy the cells, they should be unoccupied to begin with, and vice versa.
+        //If you want to occupy the cells, they should be in bounds and unoccupied
         if(![self inBounds:row_index col: col_index] || [_agrid[row_index][col_index][@"occupied"] isEqual: @YES]){
             result = NO; //Can't occupy
             break;
         }
-        
     }
     
     return result; //All tiles occupied/unoccupied

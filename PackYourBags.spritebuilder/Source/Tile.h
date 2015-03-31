@@ -14,5 +14,6 @@
 
 
 //- (void)releaseTile;
+- (CGPoint)bottomLeftCorner;
 
 @end
