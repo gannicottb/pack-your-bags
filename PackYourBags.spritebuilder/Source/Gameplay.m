@@ -33,22 +33,18 @@
 }
 
 - (void)didLoadFromCCB {
-    // tell this scene to accept touches
+    
     self.userInteractionEnabled = TRUE;
     
-    _bag = (Bag*)[self getChildByName:@"_bag" recursively:NO];
-    
-    _numLevels = 2;
-    _currentLevel = 0;
+    _numLevels = 3;
+    _currentLevel = 2;
     
     //touchedYet = NO; //User hasn't touched the screen yet
-    //_timerLabel.visible = NO; //Can't see timer yet
     
     
     //Load the first level - eventually redirect from a level select menu
     [self loadLevel:(_currentLevel)];
     
-
 }
 
 
@@ -108,31 +104,14 @@
 #pragma mark - Loads level using CCBReader based on supplied numeric index
 
 -(void)loadLevel:(int)index{
-    //Reset values and counters to defaults, get rid of the lid
+    
     [self resetWorld];
     
     // Load level from storage
     CCLOG(@"Load level %i", index);
-    //CGPoint lnpos = _levelNode.positionInPoints;
-    
-    //CCLOG(@"Level node is at (%f, %f)", _levelNode.positionInPoints.x, _levelNode.positionInPoints.y);
     Level *level = (Level*)[CCBReader load:[NSString stringWithFormat:@"Levels/LevelNew%i", index]];
     
-    //_levelNode = (Level*)[CCBReader load:[NSString stringWithFormat:@"Levels/LevelNew%i", index]];
-    
-    
-
-    // Fetch the time limit for this level
-    //_timeLimit = _levelNode.timeLimit;
     _timeLimit = level.timeLimit;
-    
-    //_levelNode.positionInPoints = lnpos;
-    //[self addChild:_levelNode];
-    
-    
-    
-    //CCLOG(@"_levelNode position (%f, %f)", _levelNode.positionInPoints.x, _levelNode.positionInPoints.y);
-    
     
     // Make a copy of the level children so that we don't have mutation during iteration problems
     NSArray *items = [level.children copy];
@@ -140,20 +119,21 @@
     CCLOG(@"Adding items to _levelNode");
     
     // Each child in the level should be added as a child to the levelNode
-   
     for( int i = 0; i < items.count; i++){
+        
         CCNode *node = items[i];
+        
         if ([node isKindOfClass:[Item class]]){
             
-            Item *item = (Item*)node; // Make local reference (to make ARC happy) and cast
-            [level removeChild:item cleanup:NO]; //remove item from loaded level node
-            [_levelNode addChild:item]; // add item to levelNode
+            Item *item = (Item*)node;               // Make local reference (to make ARC happy) and cast
+            [level removeChild:item cleanup:NO];    //remove item from loaded level node
+            [_levelNode addChild:item];             // add item to levelNode
             [item setRefs: self lnode: _levelNode bag: _bag]; //set the references
             
         }
     }
     
-    _itemsInLevel = [_levelNode.children count];
+    _itemsInLevel = _levelNode.children.count;
     CCLOG(@"%li items in this level", (long)_itemsInLevel);
 }
 
@@ -189,6 +169,9 @@
     _itemsInBag = _itemsInLevel = 0;
     
     [_levelNode removeAllChildren];
+    [_bag removeAllChildren];
+    [_bag clearGrid];
+    
     
     [self unschedule:@selector(updateTimer:)];
     _timerLabel.color = CCColor.whiteColor;

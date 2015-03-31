@@ -8,11 +8,11 @@
 
 #import "Item.h"
 #import "Bag.h"
+#import "Level.h"
 
 @implementation Item{
     Bag* _bag;
-    CCNode* _levelNode;
-    CCNode* _level;
+    Level* _levelNode;
     CCNode* _gameplay;
     CGPoint _originalPos;
 }
@@ -28,7 +28,7 @@
 
 -(void)setRefs:(CCNode *)gameplay lnode:(CCNode *)lnode bag:(CCNode *)bag{
     _gameplay = gameplay;
-    _levelNode = lnode;
+    _levelNode = (Level*)lnode;
     _bag = (Bag*) bag;
 }
 
@@ -37,6 +37,12 @@
     
     CCLOG(@"ON_ENTER");
     CCLOG(@"_parent set to %@", self.parent.name);
+    
+    if([self.parent isKindOfClass: [Level class]]){
+        self.scale = 0.5;
+    }else{
+        self.scale = 1.0;
+    }
 }
 
 

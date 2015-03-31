@@ -55,6 +55,15 @@
     }
 }
 
+-(void) clearGrid{
+    for(int r = 0; r < numTilesHigh; r++){
+        for(int c = 0; c < numTilesWide; c++){
+            _agrid[r][c][@"occupied"] = @NO;
+        }
+    }
+    
+}
+
 -(BOOL)packed{
     
     //Return whether every cell in the grid is occupied

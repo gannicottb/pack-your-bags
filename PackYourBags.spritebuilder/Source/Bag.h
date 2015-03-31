@@ -17,5 +17,6 @@
 - (BOOL)packed;
 - (BOOL)dropItem:(CCNode*)item;
 - (BOOL)liftItem:(CCNode*)item;
+- (void)clearGrid;
 
 @end
