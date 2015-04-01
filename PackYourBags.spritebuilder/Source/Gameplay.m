@@ -90,8 +90,6 @@
 #pragma mark - Next selector that removes all children and loads next level
 
 - (void) next {
-    #pragma mark - TODO: why do I need this call? removeAllchildren gets called in resetWorld
-    [_levelNode removeAllChildren];
     [self loadNextLevel];
 }
 

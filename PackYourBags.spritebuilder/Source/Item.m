@@ -8,6 +8,7 @@
 
 #import "Item.h"
 #import "Bag.h"
+#import "Tile.h"
 #import "Level.h"
 
 @implementation Item{
@@ -49,6 +50,30 @@
 - (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
     
     CCLOG(@"TOUCH_BEGAN");
+    
+    // First check to see if the touch hits one of my tiles
+    //CGPoint touchLocation = [touch locationInNode:self.parent];
+    //CCLOG(@"Touch location in parent: %f, %f", touchLocation.x, touchLocation.y);
+    
+    CGPoint touchLocationInSelf = [touch locationInNode:self];
+    CCLOG(@"Touch location in self: %f, %f", touchLocationInSelf.x, touchLocationInSelf.y);
+    
+    bool inChild;
+    
+    for(CCNode* child in self.children){
+        if([child isKindOfClass:[Tile class]]){
+            //bool inChild = [[child boundingBox] containsPoint: touchLocationInSelf];
+            inChild = CGRectContainsPoint([child boundingBox], touchLocationInSelf);
+            CCLOG(@"inChild? %i", inChild);
+            if(inChild){
+                break;
+            }
+        }
+    }
+    
+    if(!inChild){
+        [super touchBegan:touch withEvent:event];
+    }
     
     // If currently in the bag, needs to unoccupy all of the cells it's sitting on
 #pragma mark - TODO: unoccupy the bag cells on touch began
