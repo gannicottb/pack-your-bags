@@ -52,35 +52,18 @@
     CCLOG(@"TOUCH_BEGAN");
     
     // First check to see if the touch hits one of my tiles
-    //CGPoint touchLocation = [touch locationInNode:self.parent];
-    //CCLOG(@"Touch location in parent: %f, %f", touchLocation.x, touchLocation.y);
-    
     CGPoint touchLocationInSelf = [touch locationInNode:self];
     CCLOG(@"Touch location in self: %f, %f", touchLocationInSelf.x, touchLocationInSelf.y);
-    
-    bool inChild;
-    
-    for(CCNode* child in self.children){
-        if([child isKindOfClass:[Tile class]]){
-            //bool inChild = [[child boundingBox] containsPoint: touchLocationInSelf];
-            inChild = CGRectContainsPoint([child boundingBox], touchLocationInSelf);
-            CCLOG(@"inChild? %i", inChild);
-            if(inChild){
-                break;
-            }
-        }
-    }
-    
-    if(!inChild){
+
+    if(![self pointInChild:touchLocationInSelf]){
+        // Pass the touch down to the next layer, it's not in any of the tiles
         [super touchBegan:touch withEvent:event];
     }
     
     // If currently in the bag, needs to unoccupy all of the cells it's sitting on
-#pragma mark - TODO: unoccupy the bag cells on touch began
     if([self.parent isKindOfClass: [Bag class]]){
         [(Bag*)self.parent liftItem: self];
     }
-    
     
     // Remove from current parent (either level or bag)
     CCLOG(@"Removing from %@", self.parent.name);
@@ -142,4 +125,13 @@
                self.positionInPoints.y - self.contentSizeInPoints.height/2);
 }
 
+- (BOOL) pointInChild: (CGPoint) point{
+    for(CCNode* child in self.children){
+        if([child isKindOfClass:[Tile class]] &&
+            CGRectContainsPoint([child boundingBox], point)){
+            return YES;
+        }
+    }
+    return NO;
+}
 @end
