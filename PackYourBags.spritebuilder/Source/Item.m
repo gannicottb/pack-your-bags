@@ -82,9 +82,6 @@
     CGPoint touchLocation = [touch locationInNode:self.parent];
     // make the tile follow the touch
     self.positionInPoints = touchLocation;
-    //CCLOG(@"node  item pos: %f, %f", self.positionInPoints.x, self.positionInPoints.y);
-    //CCLOG(@"world item pos: %f, %f", [self.parent.parent convertToWorldSpace:self.positionInPoints].x,
-                                //[self.parent.parent convertToWorldSpace:self.positionInPoints].y);
 }
 
 - (void)touchEnded:(CCTouch *)touch withEvent:(CCTouchEvent *)event{

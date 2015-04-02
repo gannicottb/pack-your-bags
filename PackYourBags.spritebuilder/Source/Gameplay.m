@@ -23,6 +23,7 @@
     
     Bag *_bag;
     Level *_levelNode;
+    CCNode *_lid;
     
     CGFloat _itemsInBag;
     CGFloat _itemsInLevel;
@@ -41,6 +42,13 @@
     
     //touchedYet = NO; //User hasn't touched the screen yet
     
+    //Load end of level screen on top of bag and set the selector of the button
+    _lid = [CCBReader load:@"Modal"];
+    [self addChild:_lid];
+    _lid.positionInPoints = _bag.positionInPoints;
+    _lid.visible = NO;
+    CCButton *nextButton = (CCButton *)[_lid getChildByName:@"Button" recursively:true];
+    [nextButton setTarget:self selector: @selector(next)];
     
     //Load the first level - eventually redirect from a level select menu
     [self loadLevel:(_currentLevel)];
@@ -56,7 +64,10 @@
     
     if([self checkForWin]){
         CCLOG(@"You win!");
-        [self next];
+        // Close the lid, displaying the results for the level
+        _lid.visible = YES;
+        //[self next];
+        [_bag clearGrid];
     }
     
 }
@@ -71,20 +82,6 @@
     return win;
 
 }
-
-#pragma mark - Detect first touch
-//- (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event
-//{
-//    NSLog(@"Touched gameplay");
-////    if(!touchedYet){
-////        touchedYet = YES;
-////        //Schedule timer only after first click
-////        _levelTimer = [self schedule:@selector(updateTimer:) interval: 1.0];
-////        _timerLabel.visible = YES;
-////        
-////    }
-//    //[super touchBegan:touch withEvent:event];
-//}
 
 
 #pragma mark - Next selector that removes all children and loads next level
@@ -104,6 +101,9 @@
 -(void)loadLevel:(int)index{
     
     [self resetWorld];
+    
+    //Hide the end of level lid
+    _lid.visible = NO;
     
     // Load level from storage
     CCLOG(@"Load level %i", index);
