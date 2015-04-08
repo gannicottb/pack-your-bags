@@ -43,10 +43,10 @@
     //touchedYet = NO; //User hasn't touched the screen yet
     
     //Load end of level screen on top of bag and set the selector of the button
-    _lid = [CCBReader load:@"Modal"];
-    [self addChild:_lid];
-    _lid.positionInPoints = _bag.positionInPoints;
-    _lid.visible = NO;
+    //_lid = [CCBReader load:@"Modal"];
+    //[self addChild:_lid];
+    //_lid.positionInPoints = _bag.positionInPoints;
+    //_lid.visible = NO;
     CCButton *nextButton = (CCButton *)[_lid getChildByName:@"Button" recursively:true];
     [nextButton setTarget:self selector: @selector(next)];
     

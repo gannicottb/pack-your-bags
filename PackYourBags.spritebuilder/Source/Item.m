@@ -74,6 +74,9 @@
     [_gameplay addChild :self];
     [self setPositionInPoints:posInGameplay];
     CCLOG(@"Added to %@", self.parent);
+    CCLOG(@"Position before rotate: %f, %f", self.positionInPoints.x, self.positionInPoints.y);
+   // self.rotation = 90.0;
+    
 }
 
 - (void)touchMoved:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
@@ -82,6 +85,9 @@
     CGPoint touchLocation = [touch locationInNode:self.parent];
     // make the tile follow the touch
     self.positionInPoints = touchLocation;
+    //CCLOG(@"Position after  rotate: %f, %f", self.positionInPoints.x, self.positionInPoints.y);
+    CCLOG(@"bottomLeftCorner after  rotate: %f, %f", [self bottomLeftCorner].x, [self bottomLeftCorner].y);
+
 }
 
 - (void)touchEnded:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
@@ -117,7 +123,7 @@
 }
 
 - (CGPoint)bottomLeftCorner{
-    //assume position is based on centered anchor
+    //assume position is based on centered anchor and no rotation
     return ccp(self.positionInPoints.x - self.contentSizeInPoints.width/2,
                self.positionInPoints.y - self.contentSizeInPoints.height/2);
 }
