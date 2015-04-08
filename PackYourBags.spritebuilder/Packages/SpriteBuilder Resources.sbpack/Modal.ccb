@@ -1127,7 +1127,7 @@
 								<key>type</key>
 								<string>StringSimple</string>
 								<key>value</key>
-								<string></string>
+								<string>scoreValue</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -1310,6 +1310,8 @@
 								</array>
 							</dict>
 						</array>
+						<key>selected</key>
+						<true/>
 					</dict>
 					<dict>
 						<key>UUID</key>
@@ -1334,7 +1336,7 @@
 								<key>type</key>
 								<string>StringSimple</string>
 								<key>value</key>
-								<string></string>
+								<string>timeTakenValue</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -1541,7 +1543,7 @@
 								<key>type</key>
 								<string>StringSimple</string>
 								<key>value</key>
-								<string></string>
+								<string>percentPackedValue</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -2128,8 +2130,6 @@
 						</array>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>

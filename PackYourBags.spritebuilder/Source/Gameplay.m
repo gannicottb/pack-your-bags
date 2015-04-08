@@ -19,6 +19,7 @@
     
     CCTimer *_levelTimer;
     CCTime _timeLimit;
+    CCTime _timeTaken;
     CCLabelTTF *_timerLabel;
     
     Bag *_bag;
@@ -37,7 +38,7 @@
     
     self.userInteractionEnabled = TRUE;
     
-    _numLevels = 3;
+    _numLevels = 4;
     _currentLevel = 2;
     
     //touchedYet = NO; //User hasn't touched the screen yet
@@ -47,6 +48,7 @@
     //[self addChild:_lid];
     //_lid.positionInPoints = _bag.positionInPoints;
     //_lid.visible = NO;
+    
     CCButton *nextButton = (CCButton *)[_lid getChildByName:@"Button" recursively:true];
     [nextButton setTarget:self selector: @selector(next)];
     
@@ -64,12 +66,24 @@
     
     if([self checkForWin]){
         CCLOG(@"You win!");
-        // Close the lid, displaying the results for the level
-        _lid.visible = YES;
-        //[self next];
+        [self displayLevelResults];
+        
         [_bag clearGrid];
     }
     
+}
+
+- (void) displayLevelResults{
+    // Close the lid, displaying the results for the level
+    _lid.visible = YES;
+    
+    CCLabelTTF *_percentPackedValue = (CCLabelTTF *)[_lid getChildByName:@"percentPackedValue" recursively:YES];
+    CCLabelTTF *_timeTakenValue = (CCLabelTTF *)[_lid getChildByName:@"timeTakenValue" recursively:YES];
+    CCLabelTTF *_scoreValue = (CCLabelTTF *)[_lid getChildByName:@"scoreValue" recursively:YES];
+    CGFloat percentPacked = _bag.children.count / _itemsInLevel;
+    _percentPackedValue.string = [NSString stringWithFormat:@"%.2f", percentPacked*100.0];
+    _timeTakenValue.string = [NSString stringWithFormat:@"%.2f", _timeTaken];
+    _scoreValue.string = [NSString stringWithFormat:@"%.0f",_timeTaken + percentPacked];
 }
 
 #pragma mark - Returns whether all tiles are in the bag
@@ -133,6 +147,9 @@
     
     _itemsInLevel = _levelNode.children.count;
     CCLOG(@"%li items in this level", (long)_itemsInLevel);
+    
+    // Schedule the timer
+    [self schedule:@selector(updateTimer:) interval: 1.0];
 }
 
 #pragma mark - Timer update method
@@ -140,23 +157,24 @@
 -(void)updateTimer:(CCTime)delta{
     //this is called every second
                         
-    if(_timeLimit >= 0){
-        //CCLOG(@"updateTimer: %f", _timeLimit);
-        if(_timeLimit <= 3.0){
+    if(_timeTaken >= 0){
+        CCLOG(@"updateTimer: %f", _timeTaken);
+        if((_timeLimit - _timeTaken) <= 3.0){
             _timerLabel.color = CCColor.redColor;
         }
-        _timerLabel.string = [NSString stringWithFormat:@"%.0f", _timeLimit--];
+        _timerLabel.string = [NSString stringWithFormat:@"%.0f", _timeLimit - (_timeTaken++)];
 
     }else if([self checkForWin]){
         //won at the last second
         CCLOG(@"You win!");
-        [self next];
+        //[self next];
     }else{
         //ran out of time
-        CCLOG(@"You lose! %.1f of tiles placed  of level", (_itemsInBag/_itemsInLevel)*100.0);
+
         //reload the level?
-        
-        [self loadLevel:_currentLevel%_numLevels ];
+        [self displayLevelResults];
+        [_bag clearGrid];
+        //[self loadLevel:_currentLevel%_numLevels ];
     }
     
 }
@@ -175,7 +193,7 @@
     _timerLabel.color = CCColor.whiteColor;
     
     //touchedYet = NO;
-    _timerLabel.visible = NO;
+    //_timerLabel.visible = NO;
     
 }
 @end
