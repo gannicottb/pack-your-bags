@@ -186,7 +186,7 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>0.059999994933605194</real>
+							<real>0.94806337356567383</real>
 							<real>20</real>
 							<integer>1</integer>
 							<integer>2</integer>
@@ -512,7 +512,7 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>199.13325500488281</real>
+							<real>454.93704223632812</real>
 							<real>296.5</real>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -719,11 +719,11 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>65.580001831054688</real>
-							<real>16.609794616699219</real>
+							<real>0.059999998658895493</real>
+							<real>0.10000000149011612</real>
 							<integer>0</integer>
-							<integer>0</integer>
-							<integer>0</integer>
+							<integer>2</integer>
+							<integer>2</integer>
 						</array>
 					</dict>
 					<dict>
@@ -748,6 +748,8 @@
 						<string>Bag.ccb</string>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 			</dict>
 			<dict>
 				<key>UUID</key>
@@ -867,8 +869,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>65.580001831054688</real>
-							<real>16.609794616699219</real>
+							<real>34.079998016357422</real>
+							<real>32</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -896,8 +898,6 @@
 						<string>Modal.ccb</string>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>

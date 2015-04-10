@@ -49,6 +49,10 @@
     //_lid.positionInPoints = _bag.positionInPoints;
     //_lid.visible = NO;
     
+    //CCNode *_cell = [CCBReader load: @"Assets/GridOverlay"];
+    
+    
+    
     CCButton *nextButton = (CCButton *)[_lid getChildByName:@"Button" recursively:true];
     [nextButton setTarget:self selector: @selector(next)];
     

@@ -20,6 +20,7 @@
 
 -(void)onEnter{
     [super onEnter];
+    CCLOG(@"Bag loaded");
    
     numTilesHigh = 4;
     numTilesWide = 5;
