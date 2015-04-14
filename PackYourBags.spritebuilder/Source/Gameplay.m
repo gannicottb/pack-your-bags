@@ -67,12 +67,8 @@
 
 - (void)update:(CCTime)delta
 {
-    
     if([self checkForWin]){
-        CCLOG(@"You win!");
-        [self displayLevelResults];
-        
-        [_bag clearGrid];
+        [self gameOverWithStatus: YES];
     }
     
 }
@@ -90,14 +86,13 @@
     _scoreValue.string = [NSString stringWithFormat:@"%.0f",_timeTaken + percentPacked];
 }
 
-#pragma mark - Returns whether all tiles are in the bag
+#pragma mark - Returns whether the player has won the level
 
 -(BOOL)checkForWin{
 
-    bool win = [_bag packed];
-
+    // Leaving this wrapper in case I want to add more win conditions
     
-    return win;
+    return [_bag packed];
 
 }
 
@@ -154,6 +149,7 @@
     
     // Schedule the timer
     [self schedule:@selector(updateTimer:) interval: 1.0];
+    _timeTaken = 0;
 }
 
 #pragma mark - Timer update method
@@ -166,18 +162,12 @@
         if((_timeLimit - _timeTaken) <= 3.0){
             _timerLabel.color = CCColor.redColor;
         }
-        _timerLabel.string = [NSString stringWithFormat:@"%.0f", _timeLimit - (_timeTaken++)];
-
-    }else if([self checkForWin]){
-        //won at the last second
-        CCLOG(@"You win!");
-        //[self next];
+        _timerLabel.string = [NSString stringWithFormat:@"0:%.0f", _timeLimit - (_timeTaken++)];
     }else{
         //ran out of time
-
+        [self gameOverWithStatus: [self checkForWin]];
         //reload the level?
-        [self displayLevelResults];
-        [_bag clearGrid];
+        
         //[self loadLevel:_currentLevel%_numLevels ];
     }
     
@@ -192,12 +182,13 @@
     [_bag removeAllChildren];
     [_bag clearGrid];
     
-    
-    [self unschedule:@selector(updateTimer:)];
     _timerLabel.color = CCColor.whiteColor;
     
-    //touchedYet = NO;
-    //_timerLabel.visible = NO;
-    
+}
+
+-(void)gameOverWithStatus: (BOOL) won {
+    [self unschedule:@selector(updateTimer:)];
+    [self displayLevelResults];
+    [_bag clearGrid];
 }
 @end

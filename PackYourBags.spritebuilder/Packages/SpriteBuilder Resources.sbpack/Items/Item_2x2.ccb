@@ -358,7 +358,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>Assets/tile_2x2_a.png</string>
+							<string>Assets/camera.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -394,8 +394,6 @@
 						<array/>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>
