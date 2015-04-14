@@ -345,7 +345,7 @@
 						<key>value</key>
 						<array>
 							<real>1</real>
-							<real>4</real>
+							<real>1</real>
 							<false/>
 							<integer>0</integer>
 						</array>
@@ -358,7 +358,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>Assets/tile_1x1_a.png</string>
+							<string>Assets/wine.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -379,9 +379,9 @@
 						<string>Color3</string>
 						<key>value</key>
 						<array>
-							<real>0.16265419125556946</real>
+							<real>0.97638505697250366</real>
+							<real>0.99788546562194824</real>
 							<real>1</real>
-							<real>0.39727643132209778</real>
 							<real>1</real>
 						</array>
 					</dict>
@@ -394,6 +394,8 @@
 						<array/>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>

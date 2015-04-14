@@ -39,7 +39,7 @@
     self.userInteractionEnabled = TRUE;
     
     _numLevels = 4;
-    _currentLevel = 2;
+    _currentLevel = 0;
     
     //touchedYet = NO; //User hasn't touched the screen yet
     
