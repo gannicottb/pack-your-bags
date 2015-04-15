@@ -83,7 +83,7 @@
     CGFloat percentPacked = _bag.children.count / _itemsInLevel;
     _percentPackedValue.string = [NSString stringWithFormat:@"%.2f", percentPacked*100.0];
     _timeTakenValue.string = [NSString stringWithFormat:@"%.2f", _timeTaken];
-    _scoreValue.string = [NSString stringWithFormat:@"%.0f",_timeTaken + percentPacked];
+    _scoreValue.string = [NSString stringWithFormat:@"%.0f",(_timeLimit - _timeTaken) * percentPacked];
 }
 
 #pragma mark - Returns whether the player has won the level
@@ -156,8 +156,8 @@
 
 -(void)updateTimer:(CCTime)delta{
     //this is called every second
-                        
-    if(_timeTaken >= 0){
+    
+    if((_timeLimit - _timeTaken) >= 0){
         CCLOG(@"updateTimer: %f", _timeTaken);
         if((_timeLimit - _timeTaken) <= 3.0){
             _timerLabel.color = CCColor.redColor;
