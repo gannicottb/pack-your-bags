@@ -99,17 +99,16 @@
     [self addChild:_item];
     
     // Preserve item position
-    [_item setPosition:itemPosition];
-    
+    [_item setPosition: ccp(itemPosition.x + _item.contentSizeInPoints.width/2, itemPosition.y + _item.contentSizeInPoints.height/2)];
     // Default dropPosition is an error state
     CGPoint dropPosition = CGPointMake(-1, -1);
     
     // Have to modify the boundingBox origin for some reason
     CGRect itembox = [_item boundingBox];
-    itembox.origin = itemPosition;
-    
+    itembox.origin = item.position;
+    CGRect bagbox = [self boundingBox];
     // Don't snap unless we're at least touching the bag
-    if(!CGRectIntersectsRect( [self boundingBox], itembox ) ){
+    if(!CGRectIntersectsRect( bagbox, itembox ) ){
         return NO;
     }
     
@@ -117,8 +116,8 @@
     int lowRow = numTilesHigh - 1 - floor(itemPosition.y/tileHeight);
     int leftmostCol = floor(itemPosition.x/tileWidth);
     CGFloat minDistance = 10000;
-    for(int r = lowRow - 1; r <= lowRow; r++){ //invert y axis
-        for(int c = leftmostCol; c <= leftmostCol+1; c++){
+    for(int r = lowRow - 2; r <= lowRow; r++){ //invert y axis
+        for(int c = leftmostCol; c <= leftmostCol+2; c++){
             if([self inBounds:r col:c] && [_agrid[r][c][@"occupied"] isEqual: @NO]){
                 // Candidate snap point is unoccupied and in bounds
                 CGPoint candidate = [_agrid[r][c][@"position"] CGPointValue];
