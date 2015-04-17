@@ -75,7 +75,17 @@
     [self setPositionInPoints:posInGameplay];
     CCLOG(@"Added to %@", self.parent);
     CCLOG(@"Position before rotate: %f, %f", self.positionInPoints.x, self.positionInPoints.y);
-   // self.rotation = 90.0;
+    CCLOG(@"bottomLeftCorner before rotate: %f, %f", [self bottomLeftCorner].x, [self bottomLeftCorner].y);
+    
+    //self.rotation = 90.0;
+    
+    
+//    for(CCNode* child in self.children){
+//        if([child isKindOfClass:[Tile class]]){
+//            Tile *tile = (Tile*) child;
+//            tile.rotation = 90.0;
+//        }
+//    }
     
 }
 
@@ -126,6 +136,52 @@
     //assume position is based on centered anchor and no rotation
     return ccp(self.positionInPoints.x - self.contentSizeInPoints.width/2,
                self.positionInPoints.y - self.contentSizeInPoints.height/2);
+    
+    /*
+    // Find child with minimum x and y position
+    // return its bottom left corner
+    // Should cache the bottom left child and only update it when item gets rotated
+    Tile *bl_tile;
+    CGFloat min_pos;
+    BOOL first = YES;
+    for(CCNode* child in self.children){
+        if([child isKindOfClass:[Tile class]]){
+            Tile *tile = (Tile*) child;
+            CGPoint worldCoord = [child convertToWorldSpace: child.positionInPoints];
+            //CGPoint rotatedPos = [child convertToNodeSpace:(worldCoord)];
+            //CGFloat pos_sum = rotatedPos.x + rotatedPos.y;
+            CGFloat pos_sum = worldCoord.x + worldCoord.y;
+            if(first){
+                first = NO;
+                //min_pos = tile.positionInPoints.x + tile.positionInPoints.y;
+                min_pos = pos_sum;
+            //}else if(tile.positionInPoints.x + tile.positionInPoints.y < min_pos){
+            }else if(pos_sum < min_pos){
+                bl_tile = tile;
+            }
+        }
+    }
+    
+    
+    CGPoint worldCoord = [bl_tile convertToWorldSpace: bl_tile.positionInPoints];
+    //CGPoint rotatedPos = [self convertToNodeSpace:(worldCoord)];
+    CGPoint rotatedPos = worldCoord;
+   
+    
+//    return ccp(
+//               (bl_tile.positionInPoints.x - bl_tile.contentSizeInPoints.width/2) +
+//               (self.positionInPoints.x - self.contentSizeInPoints.width/2),
+//               (bl_tile.positionInPoints.y - bl_tile.contentSizeInPoints.height/2) +
+//               (self.positionInPoints.y - self.contentSizeInPoints.height/2)
+//               );
+    return ccp(
+               (rotatedPos.x - bl_tile.contentSizeInPoints.width/2) +
+               (self.positionInPoints.x - self.contentSizeInPoints.width/2),
+               (rotatedPos.y - bl_tile.contentSizeInPoints.height/2) +
+               (self.positionInPoints.y - self.contentSizeInPoints.height/2)
+               );
+     */
+    
 }
 
 - (BOOL) pointInChild: (CGPoint) point{

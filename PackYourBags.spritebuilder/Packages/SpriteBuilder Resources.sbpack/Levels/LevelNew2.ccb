@@ -97,7 +97,7 @@
 						<key>type</key>
 						<string>CCBFile</string>
 						<key>value</key>
-						<string>Items/Item_1x4.ccb</string>
+						<string>Items/Wine_1x4.ccb</string>
 					</dict>
 				</array>
 			</dict>
@@ -159,7 +159,7 @@
 						<key>type</key>
 						<string>CCBFile</string>
 						<key>value</key>
-						<string>Items/Item_1x4.ccb</string>
+						<string>Items/Wine_1x4.ccb</string>
 					</dict>
 				</array>
 			</dict>
@@ -221,7 +221,7 @@
 						<key>type</key>
 						<string>CCBFile</string>
 						<key>value</key>
-						<string>Items/Item_1x4.ccb</string>
+						<string>Items/Wine_1x4.ccb</string>
 					</dict>
 				</array>
 			</dict>
@@ -283,7 +283,7 @@
 						<key>type</key>
 						<string>CCBFile</string>
 						<key>value</key>
-						<string>Items/Item_1x4.ccb</string>
+						<string>Items/Wine_1x4.ccb</string>
 					</dict>
 				</array>
 			</dict>
@@ -345,7 +345,7 @@
 						<key>type</key>
 						<string>CCBFile</string>
 						<key>value</key>
-						<string>Items/Item_1x4.ccb</string>
+						<string>Items/Wine_1x4.ccb</string>
 					</dict>
 				</array>
 			</dict>

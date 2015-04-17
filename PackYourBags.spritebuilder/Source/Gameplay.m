@@ -158,7 +158,7 @@
     //this is called every second
     
     if((_timeLimit - _timeTaken) >= 0){
-        CCLOG(@"updateTimer: %f", _timeTaken);
+        //CCLOG(@"updateTimer: %f", _timeTaken);
         if((_timeLimit - _timeTaken) <= 3.0){
             _timerLabel.color = CCColor.redColor;
         }
