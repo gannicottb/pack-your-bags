@@ -85,6 +85,16 @@
 			<key>scaleFrom</key>
 			<integer>4</integer>
 		</dict>
+		<key>Assets/field_boot.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>2</integer>
+		</dict>
+		<key>Assets/laptop.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
 		<key>Assets/leather_bag.png</key>
 		<dict>
 			<key>scaleFrom</key>

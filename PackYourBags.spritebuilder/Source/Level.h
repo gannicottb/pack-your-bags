@@ -10,4 +10,5 @@
 
 @interface Level : CCNode
     @property (nonatomic, assign) float timeLimit;
+    @property (nonatomic, copy) NSString *title;
 @end

@@ -39,28 +39,23 @@
     self.userInteractionEnabled = TRUE;
     
     _numLevels = 4;
-    _currentLevel = 0;
+    //_currentLevel = self.level;
     
-    //touchedYet = NO; //User hasn't touched the screen yet
-    
-    //Load end of level screen on top of bag and set the selector of the button
-    //_lid = [CCBReader load:@"Modal"];
-    //[self addChild:_lid];
-    //_lid.positionInPoints = _bag.positionInPoints;
-    //_lid.visible = NO;
-    
-    //CCNode *_cell = [CCBReader load: @"Assets/GridOverlay"];
-    
-    
-    
+    // Set the selector of the Next Trip button on the lid. Can't do it from SB
     CCButton *nextButton = (CCButton *)[_lid getChildByName:@"Button" recursively:true];
     [nextButton setTarget:self selector: @selector(next)];
     
     //Load the first level - eventually redirect from a level select menu
+    //[self loadLevel:(_currentLevel)];
+
+}
+
+-(void) onEnter{
+    [super onEnter];
+    _currentLevel = self.level;
     [self loadLevel:(_currentLevel)];
     
 }
-
 
 
 #pragma mark - Update loop callback
@@ -99,7 +94,7 @@
 
 #pragma mark - Next selector that removes all children and loads next level
 
-- (void) next {
+- (void) next{
     [self loadNextLevel];
 }
 

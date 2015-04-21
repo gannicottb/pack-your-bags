@@ -566,6 +566,16 @@
 				<key>value</key>
 				<string>1000.000000</string>
 			</dict>
+			<dict>
+				<key>name</key>
+				<string>title</string>
+				<key>optimized</key>
+				<false/>
+				<key>type</key>
+				<integer>3</integer>
+				<key>value</key>
+				<string>New York</string>
+			</dict>
 		</array>
 		<key>displayName</key>
 		<string>CCNode</string>

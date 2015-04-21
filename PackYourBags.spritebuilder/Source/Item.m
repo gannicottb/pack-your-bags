@@ -19,12 +19,12 @@
 }
 
 - (void)didLoadFromCCB {
-    CCLOG(@"Item DID_LOAD_FROM_CCB");
+   
     
     self.userInteractionEnabled = YES;
     _originalPos = self.positionInPoints;
     
-    CCLOG(@"Item FINISHED LOADING");
+   
 }
 
 -(void)setRefs:(CCNode *)gameplay lnode:(CCNode *)lnode bag:(CCNode *)bag{
