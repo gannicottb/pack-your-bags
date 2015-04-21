@@ -71,6 +71,7 @@
 - (void) displayLevelResults{
     // Close the lid, displaying the results for the level
     _lid.visible = YES;
+    [[_lid animationManager]runAnimationsForSequenceNamed:@"appear"];
     
     CCLabelTTF *_percentPackedValue = (CCLabelTTF *)[_lid getChildByName:@"percentPackedValue" recursively:YES];
     CCLabelTTF *_timeTakenValue = (CCLabelTTF *)[_lid getChildByName:@"timeTakenValue" recursively:YES];
