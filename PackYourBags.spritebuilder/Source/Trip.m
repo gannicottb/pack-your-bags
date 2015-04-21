@@ -17,14 +17,18 @@
 }
 - (void)didLoadFromCCB {
     self.userInteractionEnabled = YES;
+}
+
+-(void)setLabels {
     Level *level = (Level*)[CCBReader load:[NSString stringWithFormat:@"Levels/LevelNew%i", self.level]];
     
     //set title
     
     _title.string = [NSString stringWithString:level.title];
-    CCLOG(@"title: %@", level.title);
+    CCLOG(@"level %d title: %@", self.level, level.title);
     
     //set score
+
 }
 
 - (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event{

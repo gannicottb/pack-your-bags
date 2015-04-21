@@ -10,4 +10,5 @@
 
 @interface Trip : CCNode
 @property (nonatomic, assign) int level;
+-(void)setLabels;
 @end
