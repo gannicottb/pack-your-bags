@@ -68,10 +68,21 @@
     
 }
 
+#pragma mark - Display level results
+
 - (void) displayLevelResults{
     // Close the lid, displaying the results for the level
     _lid.visible = YES;
-    [[_lid animationManager]runAnimationsForSequenceNamed:@"appear"];
+    CCAnimationManager* lidAnimationManager = [_lid animationManager];
+    [lidAnimationManager runAnimationsForSequenceNamed:@"appear"];
+    [lidAnimationManager setCompletedAnimationCallbackBlock:^(id sender) {
+        CCParticleSystem* leftPuff = (CCParticleSystem*)[CCBReader load:@"LidSmoke"];
+        CCParticleSystem* rightPuff = (CCParticleSystem*)[CCBReader load:@"LidSmoke"];
+        leftPuff.positionInPoints = _lid.position;
+        rightPuff.positionInPoints = ccp(_lid.position.x+_lid.contentSize.width, _lid.position.y);
+        [self addChild:leftPuff];
+        [self addChild:rightPuff];
+    }];
     
     CCLabelTTF *_percentPackedValue = (CCLabelTTF *)[_lid getChildByName:@"percentPackedValue" recursively:YES];
     CCLabelTTF *_timeTakenValue = (CCLabelTTF *)[_lid getChildByName:@"timeTakenValue" recursively:YES];
