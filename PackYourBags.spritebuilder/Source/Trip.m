@@ -9,6 +9,7 @@
 #import "Trip.h"
 #import "Gameplay.h"
 #import "Level.h"
+#import "CCTransition.h"
 
 @implementation Trip{
     CCLabelTTF *_title;
@@ -32,11 +33,16 @@
 }
 
 - (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
-    // Load the level
-    CCScene *gameplayScene = [CCBReader loadAsScene:@"Gameplay"];
-    // Set the level by getting the gameplay from scene and setting level property
-    ((Gameplay *)[gameplayScene children][0]).level = self.level;
-    [[CCDirector sharedDirector] replaceScene:gameplayScene];
+    CCAnimationManager* tripAnimationManager = [self animationManager];
+    [tripAnimationManager runAnimationsForSequenceNamed:@"tap"];
+    [tripAnimationManager setCompletedAnimationCallbackBlock:^(id sender) {
+        // Load the level
+        CCScene *gameplayScene = [CCBReader loadAsScene:@"Gameplay"];
+        // Set the level by getting the gameplay from scene and setting level property
+        ((Gameplay *)[gameplayScene children][0]).level = self.level;
+        [[CCDirector sharedDirector] replaceScene:gameplayScene];
+        [[CCDirector sharedDirector]replaceScene:gameplayScene withTransition: [CCTransition transitionPushWithDirection:CCTransitionDirectionRight duration:.5]];
+    }];
 
 }
 
