@@ -84,13 +84,16 @@
         [self addChild:rightPuff];
     }];
     
-    CCLabelTTF *_percentPackedValue = (CCLabelTTF *)[_lid getChildByName:@"percentPackedValue" recursively:YES];
-    CCLabelTTF *_timeTakenValue = (CCLabelTTF *)[_lid getChildByName:@"timeTakenValue" recursively:YES];
-    CCLabelTTF *_scoreValue = (CCLabelTTF *)[_lid getChildByName:@"scoreValue" recursively:YES];
-    CGFloat percentPacked = _bag.children.count / _itemsInLevel;
-    _percentPackedValue.string = [NSString stringWithFormat:@"%.2f", percentPacked*100.0];
-    _timeTakenValue.string = [NSString stringWithFormat:@"%.2f", _timeTaken];
-    _scoreValue.string = [NSString stringWithFormat:@"%.0f",(_timeLimit - _timeTaken) * percentPacked];
+    CCLabelTTF *_percentPackedValue =   (CCLabelTTF *)[_lid getChildByName:@"percentPackedValue" recursively:YES];
+    CCLabelTTF *_timeTakenValue =       (CCLabelTTF *)[_lid getChildByName:@"timeTakenValue" recursively:YES];
+    CCLabelTTF *_scoreValue =           (CCLabelTTF *)[_lid getChildByName:@"scoreValue" recursively:YES];
+    
+    CGFloat percentPacked = _bag.itemsPacked / _itemsInLevel;
+    CCTime timeLeft = _timeLimit - _timeTaken;
+    
+    _percentPackedValue.string =    [NSString stringWithFormat:@"%.2f", percentPacked*100.0];
+    _timeTakenValue.string =        [NSString stringWithFormat:@"%.2f", _timeTaken];
+    _scoreValue.string =            [NSString stringWithFormat:@"%.0f", timeLeft * percentPacked];
 }
 
 #pragma mark - Returns whether the player has won the level

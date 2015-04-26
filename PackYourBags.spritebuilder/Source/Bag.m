@@ -140,9 +140,17 @@
     if(dropPosition.x >= 0 && dropPosition.y >= 0){
         [_item setPosition: ccp(dropPosition.x + _item.contentSizeInPoints.width/2,
                                 dropPosition.y + _item.contentSizeInPoints.height/2)];
+    
+        CCParticleSystem* dropPuff = (CCParticleSystem*)[CCBReader load:@"LidSmoke"];
+        dropPuff.positionInPoints = _item.positionInPoints;
+        dropPuff.autoRemoveOnFinish = YES;
+        [self addChild:dropPuff];
+        
         
         result = [self forEachTileIn:_item occupy:YES];
     }
+    
+    
     
     // Result will be an error state (-1,-1) if no suitable point was found
     
@@ -235,4 +243,16 @@
     return ((col >= 0 && col < numTilesWide)&&
             (row >=0 && row < numTilesHigh));
 }
+
+-(CGFloat)itemsPacked{
+    CGFloat itemsPacked = 0;
+    
+    for(CCNode *child in self.children){
+        itemsPacked += [child isKindOfClass:[Item class]];
+    }
+    
+    return itemsPacked;
+}
+
+
 @end

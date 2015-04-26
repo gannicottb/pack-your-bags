@@ -492,8 +492,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>411.91412353515625</real>
-							<real>16.609794616699219</real>
+							<real>398.59848022460938</real>
+							<real>10.557226181030273</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -506,8 +506,8 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>0.0</real>
-							<real>0.0</real>
+							<real>150</real>
+							<real>1</real>
 							<integer>0</integer>
 							<integer>0</integer>
 						</array>
@@ -537,6 +537,8 @@
 						</array>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 			</dict>
 			<dict>
 				<key>UUID</key>
@@ -777,8 +779,6 @@
 						<string>Modal.ccb</string>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>
