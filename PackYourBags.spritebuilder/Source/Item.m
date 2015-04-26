@@ -41,8 +41,8 @@
     
     if([self.parent isKindOfClass: [Level class]]){
         self.scale = 0.5;
+        //Random rotation between -30 and 30 degrees.
         self.rotation = (float)arc4random_uniform(30) - (float) arc4random_uniform(30);
-        CCLOG(@"rot: %f", self.rotation);
     }else{
         self.scale = 1.0;
         self.rotation = 0;

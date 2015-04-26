@@ -71,7 +71,7 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>96</real>
+							<real>32</real>
 							<real>32</real>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -134,7 +134,7 @@
 						<key>value</key>
 						<array>
 							<real>32</real>
-							<real>32</real>
+							<real>96</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -220,8 +220,8 @@
 						<string>ScaleLock</string>
 						<key>value</key>
 						<array>
-							<real>4</real>
-							<real>4</real>
+							<real>1</real>
+							<real>2</real>
 							<false/>
 							<integer>0</integer>
 						</array>
@@ -234,7 +234,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>Assets/blocks/element_green_rectangle.png</string>
+							<string>Assets/tile_1x1_a.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -270,6 +270,8 @@
 						<array/>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>
@@ -311,8 +313,8 @@
 				<string>Size</string>
 				<key>value</key>
 				<array>
-					<real>128</real>
 					<real>64</real>
+					<real>128</real>
 					<integer>0</integer>
 					<integer>0</integer>
 				</array>
