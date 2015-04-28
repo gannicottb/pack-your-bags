@@ -178,7 +178,7 @@
 -(void)updateTimer:(CCTime)delta{
     //this is called every second
     
-    if((_timeLimit - _timeTaken) >= 0){
+    if((_timeLimit - _timeTaken) > 0){
         //CCLOG(@"updateTimer: %f", _timeTaken);
         if((_timeLimit - _timeTaken) <= 3.0){
             _timerLabel.color = CCColor.redColor;
@@ -186,6 +186,7 @@
         _timerLabel.string = [NSString stringWithFormat:@"0:%.0f", _timeLimit - (_timeTaken++)];
     }else{
         //ran out of time
+        _timerLabel.string = [NSString stringWithFormat:@"0:%.0f", _timeLimit - _timeTaken];
         [self gameOverWithStatus: [self checkForWin]];
         //reload the level?
         
