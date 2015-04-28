@@ -120,7 +120,7 @@
 				<key>type</key>
 				<string>Float</string>
 				<key>value</key>
-				<real>100000</real>
+				<real>10000000</real>
 			</dict>
 			<dict>
 				<key>name</key>
@@ -375,7 +375,7 @@
 			<key>offset</key>
 			<real>0.0</real>
 			<key>position</key>
-			<real>0.0</real>
+			<real>1.7000000476837158</real>
 			<key>resolution</key>
 			<real>30</real>
 			<key>scale</key>

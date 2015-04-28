@@ -162,8 +162,6 @@
 						<string>Items/Item_1x2.ccb</string>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 			<dict>
 				<key>UUID</key>
@@ -550,7 +548,7 @@
 				<key>type</key>
 				<integer>1</integer>
 				<key>value</key>
-				<string>1000.000000</string>
+				<string>45.000000</string>
 			</dict>
 			<dict>
 				<key>name</key>
@@ -631,6 +629,8 @@
 				</array>
 			</dict>
 		</array>
+		<key>selected</key>
+		<true/>
 	</dict>
 	<key>notes</key>
 	<array/>

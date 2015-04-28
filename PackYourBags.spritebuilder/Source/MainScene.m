@@ -27,8 +27,10 @@
 //    NSError * error;
 //    NSArray * directoryContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:levelsPath error:&error];
     
-    CCScene *tripSelectScene = [CCBReader loadAsScene:@"TripSelect"];
-    [[CCDirector sharedDirector] replaceScene:tripSelectScene];
+//    CCScene *tripSelectScene = [CCBReader loadAsScene:@"TripSelect"];
+//    [[CCDirector sharedDirector] replaceScene:tripSelectScene];
+    CCScene *tutorialScene = [CCBReader loadAsScene:@"Tutorial"];
+    [[CCDirector sharedDirector] replaceScene:tutorialScene];
 }
 
 - (void)dealloc {

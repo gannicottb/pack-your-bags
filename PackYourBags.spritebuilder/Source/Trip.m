@@ -29,7 +29,9 @@
     CCLOG(@"level %d title: %@", self.level, level.title);
     
     //set score
-
+    NSNumber *levelScore = [[NSUserDefaults standardUserDefaults]objectForKey: [NSString stringWithFormat:@"level%dscore",self.level]];
+    _highScore.string = [NSString stringWithFormat:@"%.0f", [levelScore floatValue]];
+    CCLOG(@"level %d score: %@", self.level, _highScore.string);
 }
 
 - (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event{

@@ -100,6 +100,7 @@
 		D34C7ACE1AC33A64007D7AB2 /* Bag.m in Sources */ = {isa = PBXBuildFile; fileRef = D34C7ACD1AC33A64007D7AB2 /* Bag.m */; };
 		D34C7AF51AE6119D007D7AB2 /* Trip.m in Sources */ = {isa = PBXBuildFile; fileRef = D34C7AF41AE6119D007D7AB2 /* Trip.m */; };
 		D34C7AF91AE61A7E007D7AB2 /* TripSelect.m in Sources */ = {isa = PBXBuildFile; fileRef = D34C7AF81AE61A7D007D7AB2 /* TripSelect.m */; };
+		D3F9001E1AF029D600A8E18E /* Tutorial.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F9001D1AF029D600A8E18E /* Tutorial.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -224,6 +225,8 @@
 		D34C7AF71AE61A7D007D7AB2 /* TripSelect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TripSelect.h; path = Source/TripSelect.h; sourceTree = "<group>"; };
 		D34C7AF81AE61A7D007D7AB2 /* TripSelect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TripSelect.m; path = Source/TripSelect.m; sourceTree = "<group>"; };
 		D352B48019EC608A00829775 /* MetalShaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MetalShaders; path = Source/MetalShaders; sourceTree = "<group>"; };
+		D3F9001C1AF029D600A8E18E /* Tutorial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tutorial.h; path = Source/Tutorial.h; sourceTree = "<group>"; };
+		D3F9001D1AF029D600A8E18E /* Tutorial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Tutorial.m; path = Source/Tutorial.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -425,6 +428,8 @@
 				D34C7AB71A944CE5007D7AB2 /* Gameplay.m */,
 				D34C7AC81AC3378D007D7AB2 /* Item.h */,
 				D34C7AC91AC3378D007D7AB2 /* Item.m */,
+				D3F9001C1AF029D600A8E18E /* Tutorial.h */,
+				D3F9001D1AF029D600A8E18E /* Tutorial.m */,
 				D34C7ACC1AC33A64007D7AB2 /* Bag.h */,
 				D34C7ACD1AC33A64007D7AB2 /* Bag.m */,
 				D34C7ABF1AA55919007D7AB2 /* Level.h */,
@@ -802,6 +807,7 @@
 				D34C7ACA1AC3378D007D7AB2 /* Item.m in Sources */,
 				D34C7AF91AE61A7E007D7AB2 /* TripSelect.m in Sources */,
 				D34C7AB81A944CE5007D7AB2 /* Gameplay.m in Sources */,
+				D3F9001E1AF029D600A8E18E /* Tutorial.m in Sources */,
 				D34C7AAB1A9433E4007D7AB2 /* AppDelegate.m in Sources */,
 				B73789871807631A0076A88C /* main.m in Sources */,
 				7A046D8C19E8A20E004C4763 /* MainScene.m in Sources */,

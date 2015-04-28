@@ -50,6 +50,7 @@
 
 }
 
+
 -(void) onEnter{
     [super onEnter];
     _currentLevel = self.level;
@@ -90,10 +91,20 @@
     
     CGFloat percentPacked = _bag.itemsPacked / _itemsInLevel;
     CCTime timeLeft = _timeLimit - _timeTaken;
+    CGFloat thisScore = timeLeft * percentPacked;
     
     _percentPackedValue.string =    [NSString stringWithFormat:@"%.2f", percentPacked*100.0];
     _timeTakenValue.string =        [NSString stringWithFormat:@"%.2f", _timeTaken];
-    _scoreValue.string =            [NSString stringWithFormat:@"%.0f", timeLeft * percentPacked];
+    _scoreValue.string =            [NSString stringWithFormat:@"%.0f", thisScore];
+    
+    //----
+    
+    NSNumber *levelScore = [[NSUserDefaults standardUserDefaults]objectForKey: [NSString stringWithFormat:@"level%dscore",self.level]];
+    if(thisScore > [levelScore floatValue]){
+        levelScore = [NSNumber numberWithFloat:thisScore];
+        [[NSUserDefaults standardUserDefaults]setObject:levelScore forKey:[NSString stringWithFormat:@"level%dscore",self.level]];
+        [[NSUserDefaults standardUserDefaults]synchronize];
+    }
 }
 
 #pragma mark - Returns whether the player has won the level
