@@ -18,6 +18,7 @@
     int _numLevels, _currentLevel;
     
     CCTimer *_levelTimer;
+    CCColor *originalTimerColor;
     CCTime _timeLimit;
     CCTime _timeTaken;
     CCLabelTTF *_timerLabel;
@@ -39,14 +40,16 @@
     self.userInteractionEnabled = TRUE;
     
     _numLevels = 4;
-    //_currentLevel = self.level;
+
+    originalTimerColor = _timerLabel.color;
     
-    // Set the selector of the Next Trip button on the lid. Can't do it from SB
-    CCButton *nextButton = (CCButton *)[_lid getChildByName:@"Button" recursively:true];
+    
+    // Set the selector of the Next Trip and Retry buttons on the lid. Can't do it from SB
+    CCButton *nextButton = (CCButton *)[_lid getChildByName:@"nextButton" recursively:true];
     [nextButton setTarget:self selector: @selector(next)];
     
-    //Load the first level - eventually redirect from a level select menu
-    //[self loadLevel:(_currentLevel)];
+    CCButton *retryButton = (CCButton *)[_lid getChildByName:@"retryButton" recursively:true];
+    [retryButton setTarget:self selector: @selector(retry)];
 
 }
 
@@ -124,6 +127,10 @@
     [self loadNextLevel];
 }
 
+- (void) retry{
+    [self loadLevel:self.level];
+}
+
 #pragma mark - Convenience method for loading the next level (loops)
 
 -(void)loadNextLevel{
@@ -179,7 +186,6 @@
     //this is called every second
     
     if((_timeLimit - _timeTaken) > 0){
-        //CCLOG(@"updateTimer: %f", _timeTaken);
         if((_timeLimit - _timeTaken) <= 3.0){
             _timerLabel.color = CCColor.redColor;
         }
@@ -188,9 +194,6 @@
         //ran out of time
         _timerLabel.string = [NSString stringWithFormat:@"0:%.0f", _timeLimit - _timeTaken];
         [self gameOverWithStatus: [self checkForWin]];
-        //reload the level?
-        
-        //[self loadLevel:_currentLevel%_numLevels ];
     }
     
 }
@@ -204,7 +207,7 @@
     [_bag removeAllChildren];
     [_bag clearGrid];
     
-    _timerLabel.color = CCColor.whiteColor;
+    _timerLabel.color = originalTimerColor;
     
 }
 
