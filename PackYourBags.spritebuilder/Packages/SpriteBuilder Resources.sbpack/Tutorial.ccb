@@ -436,7 +436,7 @@
 
 But you forgot to pack your bags!
 
-Drag your items from the right side of the screen into your bag!
+Drag your items into your bag!
 
 You'd better hurry! Time is running out!</string>
 							<false/>
@@ -467,7 +467,7 @@ You'd better hurry! Time is running out!</string>
 						<key>type</key>
 						<string>Check</string>
 						<key>value</key>
-						<false/>
+						<true/>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -900,8 +900,6 @@ You'd better hurry! Time is running out!</string>
 						</array>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>
