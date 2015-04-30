@@ -16,7 +16,7 @@
 	<key>currentResolution</key>
 	<integer>0</integer>
 	<key>currentSequenceId</key>
-	<integer>1</integer>
+	<integer>0</integer>
 	<key>docDimensionsType</key>
 	<integer>1</integer>
 	<key>fileType</key>
@@ -210,8 +210,8 @@
 					<dict>
 						<key>baseValue</key>
 						<array>
-							<real>1.1000000238418579</real>
-							<real>1.1000000238418579</real>
+							<real>1.0499999523162842</real>
+							<real>1.0700000524520874</real>
 						</array>
 						<key>name</key>
 						<string>scale</string>
@@ -219,9 +219,9 @@
 						<string>ScaleLock</string>
 						<key>value</key>
 						<array>
-							<real>1.1000000238418579</real>
-							<real>1.1000000238418579</real>
-							<true/>
+							<real>1.0499999523162842</real>
+							<real>1.0700000524520874</real>
+							<false/>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -293,6 +293,8 @@
 						<real>0.10000000149011612</real>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 				<key>seqExpanded</key>
 				<true/>
 			</dict>

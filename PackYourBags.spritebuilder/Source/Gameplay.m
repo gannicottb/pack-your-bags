@@ -11,7 +11,6 @@
 #import "Item.h"
 #import "Bag.h"
 #import "Gameplay.h"
-//#import "CCPhysics+ObjectiveChipmunk.h"
 
 @implementation Gameplay{
     
@@ -22,6 +21,8 @@
     CCTime _timeLimit;
     CCTime _timeTaken;
     CCLabelTTF *_timerLabel;
+    CCNode *_clock;
+    CCNode *_menu;
     
     Bag *_bag;
     Level *_levelNode;
@@ -56,11 +57,11 @@
     [self loadLevel:(_currentLevel)];
     
     NSNumber *firsttime = [[NSUserDefaults standardUserDefaults]valueForKey: @"firsttime"];
-    if([firsttime boolValue]){
+    if([firsttime boolValue] && self.level == 0){
         CCNode *arrow = [CCBReader load:@"TutorialArrow"];
         self.paused = YES;
         [self addChild: arrow];
-        arrow.positionInPoints = ccp(_levelNode.positionInPoints.x + 50, _levelNode.positionInPoints.y + 100);
+        arrow.positionInPoints = [self centerPoint:_levelNode];
         CCAnimationManager* arrowAnimationManager = [arrow animationManager];
         [arrowAnimationManager runAnimationsForSequenceNamed:@"appear"];
         [arrowAnimationManager setCompletedAnimationCallbackBlock:^(id sender) {
@@ -72,6 +73,32 @@
     }
 }
 
+- (CGPoint) centerPoint: (CCNode*) node{
+    return ccp(node.positionInPoints.x + node.contentSizeInPoints.width/2,
+               node.positionInPoints.y + node.contentSizeInPoints.height/2);
+}
+
+- (void) touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
+    if(![self touchingClock:[touch locationInNode: self]]){
+        // Pass the touch down to the next layer, it's not in any of the tiles
+        [super touchBegan:touch withEvent:event];
+    }else if(_menu){
+         [self removeChild:_menu];
+    }else{
+        self.paused = YES;
+        _menu = [CCBReader load:@"Menu"];
+        _menu.positionInPoints = [self centerPoint: self];
+        CCButton *quit = (CCButton*)[_menu getChildByName:@"quit" recursively:YES];
+        CCButton *retry = (CCButton*)[_menu getChildByName:@"retry" recursively:YES];
+        [quit setTarget:self selector:@selector(next)];
+        [retry setTarget:self selector:@selector(retry)];
+        [self addChild: _menu];
+    }
+}
+
+-(BOOL) touchingClock: (CGPoint) touchLocation{
+    return CGRectContainsPoint([_clock boundingBox], touchLocation);
+}
 
 #pragma mark - Update loop callback
 
@@ -86,6 +113,7 @@
 #pragma mark - Display level results
 
 - (void) displayLevelResults{
+    self.paused = YES;
     // Close the lid, displaying the results for the level
     _lid.visible = YES;
     CCAnimationManager* lidAnimationManager = [_lid animationManager];
@@ -111,27 +139,8 @@
     _timeTakenValue.string =        [NSString stringWithFormat:@"%.2f", _timeTaken];
     _scoreValue.string =            [NSString stringWithFormat:@"%.0f", thisScore];
     
-    //----
-    // Fetch the level dict
-    NSMutableDictionary *levelData = [[NSUserDefaults standardUserDefaults]objectForKey: [NSString stringWithFormat:@"level%d",self.level]];
-    if(levelData == nil){
-        levelData = [NSMutableDictionary new];
-    }
-    // If this score beats your old score, overwrite the old score.
-    NSNumber *levelScore = [levelData valueForKey:@"score"];
-    if(thisScore > [levelScore floatValue]){
-        levelScore = [NSNumber numberWithFloat:thisScore];
-        [levelData setValue:levelScore forKey:@"score"];
-        [[NSUserDefaults standardUserDefaults]setObject: levelData forKey:[NSString stringWithFormat:@"level%d",self.level]];
-        [[NSUserDefaults standardUserDefaults]synchronize];
-    }
-    // Completing a level means that you've played the game before.
-    NSNumber *firsttime = [[NSUserDefaults standardUserDefaults]valueForKey: @"firsttime"];
-    if([firsttime boolValue]){
-        firsttime = [NSNumber numberWithBool:NO];
-        [[NSUserDefaults standardUserDefaults]setObject: firsttime forKey:@"firsttime"];
-        [[NSUserDefaults standardUserDefaults]synchronize];
-    }
+    [self updateUserDefaults:thisScore];
+    
 }
 
 #pragma mark - Returns whether the player has won the level
@@ -144,8 +153,37 @@
 
 }
 
+-(void) updateUserDefaults: (CGFloat)thisScore{
+    // Fetch the level dict
+    NSMutableDictionary *levelData = [[NSUserDefaults standardUserDefaults]objectForKey: [NSString stringWithFormat:@"level%d",self.level]];
+    if(levelData == nil){
+        levelData = [NSMutableDictionary new];
+    }
+    // If this score beats your old score, overwrite the old score.
+    NSNumber *levelScore = [levelData valueForKey:@"score"];
+    if(thisScore > [levelScore floatValue]){
+        levelScore = [NSNumber numberWithFloat:thisScore];
+        [levelData setValue:levelScore forKey:@"score"];
+        [[NSUserDefaults standardUserDefaults]setObject: levelData forKey:[NSString stringWithFormat:@"level%d",self.level]];
+    }
+    // Completing a level means that you've played the game before.
+    NSNumber *firsttime = [[NSUserDefaults standardUserDefaults]valueForKey: @"firsttime"];
+    if([firsttime boolValue]){
+        firsttime = [NSNumber numberWithBool:NO];
+        [[NSUserDefaults standardUserDefaults]setObject: firsttime forKey:@"firsttime"];
+    }
+    // Completing a level means that you unlock the next one.
+    NSMutableDictionary *nextLevelData = [[NSUserDefaults standardUserDefaults]objectForKey:[NSString stringWithFormat:@"level%d",self.level+1]];
+    if(nextLevelData){
+        [nextLevelData setValue:[NSNumber numberWithBool:NO] forKey:@"locked"];
+        [[NSUserDefaults standardUserDefaults]setObject: nextLevelData forKey:[NSString stringWithFormat:@"level%d",self.level+1]];
+    }
+    
+    [[NSUserDefaults standardUserDefaults]synchronize];
+}
 
-#pragma mark - Next selector that removes all children and loads next level
+
+#pragma mark - Next selector that removes all children and redirects to trip select
 
 - (void) next{
     //[self loadNextLevel];
@@ -156,6 +194,10 @@
 }
 
 - (void) retry{
+    if(_menu){
+        [self removeChild:_menu];
+    }
+    
     [self loadLevel:self.level];
 }
 
@@ -204,7 +246,12 @@
     CCLOG(@"%li items in this level", (long)_itemsInLevel);
     
     // Schedule the timer
-    [self schedule:@selector(updateTimer:) interval: 1.0];
+    if(_timeLimit > 0){
+        [self schedule:@selector(updateTimer:) interval: 1.0];
+    }else{
+        _timerLabel.string = @"";
+    }
+    
     _timeTaken = 0;
 }
 
@@ -212,7 +259,6 @@
 
 -(void)updateTimer:(CCTime)delta{
     //this is called every second
-    
     if((_timeLimit - _timeTaken) > 0){
         if((_timeLimit - _timeTaken) <= 3.0){
             _timerLabel.color = CCColor.redColor;

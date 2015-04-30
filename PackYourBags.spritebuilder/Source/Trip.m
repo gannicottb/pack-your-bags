@@ -33,6 +33,9 @@
         levelData = [NSMutableDictionary new];
         // Set the locked value to the value set in Spritebuilder
         [levelData setValue:[NSNumber numberWithBool:level.locked] forKey:@"locked"];
+        // Synchronize
+        [[NSUserDefaults standardUserDefaults]setObject:levelData forKey:[NSString stringWithFormat:@"level%d",self.level]];
+        [[NSUserDefaults standardUserDefaults]synchronize];
     }
     NSNumber *levelScore = [levelData valueForKey: @"score"];
     _highScore.string = [NSString stringWithFormat:@"%.0f", [levelScore floatValue]];

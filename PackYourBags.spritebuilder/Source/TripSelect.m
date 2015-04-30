@@ -14,8 +14,8 @@
     CCLayoutBox *_bottomRow;
 }
 
-- (void)didLoadFromCCB {
-    
+- (void)onEnter {
+    [super onEnter];
     NSString * resourcePath = [[NSBundle mainBundle] resourcePath];
     NSString * publishedPath = [resourcePath stringByAppendingPathComponent:@"Published-iOS"];
     NSString * levelsPath = [publishedPath stringByAppendingPathComponent:@"Levels"];

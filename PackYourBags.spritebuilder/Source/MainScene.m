@@ -30,11 +30,7 @@
 //    CCScene *tripSelectScene = [CCBReader loadAsScene:@"TripSelect"];
 //    [[CCDirector sharedDirector] replaceScene:tripSelectScene];
     
-    NSNumber *firsttime = [[NSUserDefaults standardUserDefaults]valueForKey: @"firsttime"];
-    if(firsttime == nil){
-        firsttime = [NSNumber numberWithBool: YES];
-        [[NSUserDefaults standardUserDefaults]setValue:firsttime forKey:@"firsttime"];
-    }
+    
     
     CCScene *tripSelectScene = [CCBReader loadAsScene:@"TripSelect"];
     [[CCDirector sharedDirector] replaceScene:tripSelectScene];
@@ -58,6 +54,13 @@
 //    
 //    // load highscore
 //    [self updateHighscore];
+    
+    NSNumber *firsttime = [[NSUserDefaults standardUserDefaults]valueForKey: @"firsttime"];
+    if(firsttime == nil){
+        firsttime = [NSNumber numberWithBool: YES];
+        [[NSUserDefaults standardUserDefaults]setValue:firsttime forKey:@"firsttime"];
+    }
+    
 }
 
 - (void)updateHighscore {
@@ -67,15 +70,15 @@
 //    }
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context {
-//    if ([keyPath isEqualToString:@"score"]) {
-//        _scoreLabel.string = [NSString stringWithFormat:@"%ld", (long)_grid.score];
-//    } else if ([keyPath isEqualToString:@"highscore"]) {
-//        [self updateHighscore];
-//    }
-}
+//- (void)observeValueForKeyPath:(NSString *)keyPath
+//                      ofObject:(id)object
+//                        change:(NSDictionary *)change
+//                       context:(void *)context {
+////    if ([keyPath isEqualToString:@"score"]) {
+////        _scoreLabel.string = [NSString stringWithFormat:@"%ld", (long)_grid.score];
+////    } else if ([keyPath isEqualToString:@"highscore"]) {
+////        [self updateHighscore];
+////    }
+//}
 
 @end
