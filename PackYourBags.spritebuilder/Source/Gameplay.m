@@ -79,11 +79,14 @@
 }
 
 - (void) touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
+
+    if([self getChildByName:@"menu" recursively:YES]){
+        [self removeChild:_menu];
+    }
+    
     if(![self touchingClock:[touch locationInNode: self]]){
         // Pass the touch down to the next layer, it's not in any of the tiles
         [super touchBegan:touch withEvent:event];
-    }else if(_menu){
-         [self removeChild:_menu];
     }else{
         self.paused = YES;
         _menu = [CCBReader load:@"Menu"];
@@ -155,7 +158,9 @@
 
 -(void) updateUserDefaults: (CGFloat)thisScore{
     // Fetch the level dict
-    NSMutableDictionary *levelData = [[NSUserDefaults standardUserDefaults]objectForKey: [NSString stringWithFormat:@"level%d",self.level]];
+    NSMutableDictionary *levelData = [[[NSUserDefaults standardUserDefaults]objectForKey:
+                                       [NSString stringWithFormat:@"level%d",self.level]]
+                                      mutableCopy];
     if(levelData == nil){
         levelData = [NSMutableDictionary new];
     }
@@ -173,7 +178,9 @@
         [[NSUserDefaults standardUserDefaults]setObject: firsttime forKey:@"firsttime"];
     }
     // Completing a level means that you unlock the next one.
-    NSMutableDictionary *nextLevelData = [[NSUserDefaults standardUserDefaults]objectForKey:[NSString stringWithFormat:@"level%d",self.level+1]];
+    NSMutableDictionary *nextLevelData = [[[NSUserDefaults standardUserDefaults]objectForKey:
+                                          [NSString stringWithFormat:@"level%d",self.level+1]]
+                                          mutableCopy];
     if(nextLevelData){
         [nextLevelData setValue:[NSNumber numberWithBool:NO] forKey:@"locked"];
         [[NSUserDefaults standardUserDefaults]setObject: nextLevelData forKey:[NSString stringWithFormat:@"level%d",self.level+1]];
@@ -194,8 +201,12 @@
 }
 
 - (void) retry{
-    if(_menu){
+    if([self getChildByName:@"menu" recursively:YES]){
         [self removeChild:_menu];
+    }
+    
+    if(self.paused){
+        self.paused = NO;
     }
     
     [self loadLevel:self.level];

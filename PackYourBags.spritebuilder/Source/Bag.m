@@ -185,7 +185,7 @@
         if([child isKindOfClass:[Tile class]]){
             Tile *tile = (Tile*) child;
             CGPoint tile_bottom_left_corner = [tile bottomLeftCorner];
-            CCLOG(@"tile_bottom_left_corner: %f, %f", tile_bottom_left_corner.x , tile_bottom_left_corner.y);
+            //CCLOG(@"tile_bottom_left_corner: %f, %f", tile_bottom_left_corner.x , tile_bottom_left_corner.y);
             
             int col_index = (item_bottom_left_corner.x + tile_bottom_left_corner.x)/tileWidth;
             int row_index = numTilesHigh - 1 - (item_bottom_left_corner.y + tile_bottom_left_corner.y)/tileHeight;
@@ -222,7 +222,7 @@
         
             CGPoint tile_bottom_left_corner = [tile bottomLeftCorner];
             
-            CCLOG(@"tile_bottom_left_corner: %f, %f", tile_bottom_left_corner.x , tile_bottom_left_corner.y);
+            //CCLOG(@"tile_bottom_left_corner: %f, %f", tile_bottom_left_corner.x , tile_bottom_left_corner.y);
             
             int col_index = (item_bottom_left_corner.x + tile_bottom_left_corner.x)/tileWidth;
             int row_index = numTilesHigh - 1 - (item_bottom_left_corner.y + tile_bottom_left_corner.y)/tileHeight;

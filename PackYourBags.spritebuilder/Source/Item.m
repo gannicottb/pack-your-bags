@@ -36,7 +36,7 @@
 - (void) onEnter{
     [super onEnter];
     
-    CCLOG(@"ON_ENTER");
+    //CCLOG(@"ON_ENTER");
     CCLOG(@"_parent set to %@", self.parent.name);
     
     if([self.parent isKindOfClass: [Level class]]){
@@ -52,11 +52,11 @@
 
 - (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
     
-    CCLOG(@"TOUCH_BEGAN");
+    //CCLOG(@"TOUCH_BEGAN");
     
     // First check to see if the touch hits one of my tiles
     CGPoint touchLocationInSelf = [touch locationInNode:self];
-    CCLOG(@"Touch location in self: %f, %f", touchLocationInSelf.x, touchLocationInSelf.y);
+    //CCLOG(@"Touch location in self: %f, %f", touchLocationInSelf.x, touchLocationInSelf.y);
 
     if(![self pointInChild:touchLocationInSelf]){
         // Pass the touch down to the next layer, it's not in any of the tiles
@@ -77,8 +77,8 @@
     [_gameplay addChild :self];
     [self setPositionInPoints:posInGameplay];
     CCLOG(@"Added to %@", self.parent);
-    CCLOG(@"Position before rotate: %f, %f", self.positionInPoints.x, self.positionInPoints.y);
-    CCLOG(@"bottomLeftCorner before rotate: %f, %f", [self bottomLeftCorner].x, [self bottomLeftCorner].y);
+//    CCLOG(@"Position before rotate: %f, %f", self.positionInPoints.x, self.positionInPoints.y);
+//    CCLOG(@"bottomLeftCorner before rotate: %f, %f", [self bottomLeftCorner].x, [self bottomLeftCorner].y);
     
     //self.rotation = 90.0;
     
@@ -99,17 +99,15 @@
     // make the tile follow the touch
     self.positionInPoints = touchLocation;
     //CCLOG(@"Position after  rotate: %f, %f", self.positionInPoints.x, self.positionInPoints.y);
-    CCLOG(@"bottomLeftCorner after  rotate: %f, %f", [self bottomLeftCorner].x, [self bottomLeftCorner].y);
+//    CCLOG(@"bottomLeftCorner after  rotate: %f, %f", [self bottomLeftCorner].x, [self bottomLeftCorner].y);
 
 }
 
 - (void)touchEnded:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
-    CCLOG(@"TOUCH_ENDED");
     [self drop];
 }
 
 - (void)touchCancelled:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
-    CCLOG(@"TOUCH_CANCELLED");
     [self drop];
 }
 

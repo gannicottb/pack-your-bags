@@ -27,7 +27,9 @@
     _title.string = [NSString stringWithString:level.title];
     
     //set score
-    NSMutableDictionary *levelData = [[NSUserDefaults standardUserDefaults]objectForKey: [NSString stringWithFormat:@"level%d",self.level]];
+    NSMutableDictionary *levelData = [[[NSUserDefaults standardUserDefaults]objectForKey:
+                                      [NSString stringWithFormat:@"level%d",self.level]]
+                                      mutableCopy];
     if(levelData == nil){
         // If there is no level data, assume we're starting fresh
         levelData = [NSMutableDictionary new];
