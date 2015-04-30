@@ -9,6 +9,7 @@
 #import "Tutorial.h"
 
 @implementation Tutorial
+
 - (void)start {
     CCScene *tripSelectScene = [CCBReader loadAsScene:@"TripSelect"];
     [[CCDirector sharedDirector] replaceScene:tripSelectScene];

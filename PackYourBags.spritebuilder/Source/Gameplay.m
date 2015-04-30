@@ -11,7 +11,7 @@
 #import "Item.h"
 #import "Bag.h"
 #import "Gameplay.h"
-#import "CCPhysics+ObjectiveChipmunk.h"
+//#import "CCPhysics+ObjectiveChipmunk.h"
 
 @implementation Gameplay{
     
@@ -30,9 +30,6 @@
     CGFloat _itemsInBag;
     CGFloat _itemsInLevel;
     
-    //bool touchedYet;
-    
-    
 }
 
 - (void)didLoadFromCCB {
@@ -42,7 +39,6 @@
     _numLevels = 4;
 
     originalTimerColor = _timerLabel.color;
-    
     
     // Set the selector of the Next Trip and Retry buttons on the lid. Can't do it from SB
     CCButton *nextButton = (CCButton *)[_lid getChildByName:@"nextButton" recursively:true];
@@ -59,6 +55,21 @@
     _currentLevel = self.level;
     [self loadLevel:(_currentLevel)];
     
+    NSNumber *firsttime = [[NSUserDefaults standardUserDefaults]valueForKey: @"firsttime"];
+    if([firsttime boolValue]){
+        CCNode *arrow = [CCBReader load:@"TutorialArrow"];
+        self.paused = YES;
+        [self addChild: arrow];
+        arrow.positionInPoints = ccp(_levelNode.positionInPoints.x + 50, _levelNode.positionInPoints.y + 100);
+        CCAnimationManager* arrowAnimationManager = [arrow animationManager];
+        [arrowAnimationManager runAnimationsForSequenceNamed:@"appear"];
+        [arrowAnimationManager setCompletedAnimationCallbackBlock:^(id sender) {
+            [self removeChild: arrow];
+            self.paused = NO;
+        }];
+        
+        
+    }
 }
 
 
@@ -101,11 +112,24 @@
     _scoreValue.string =            [NSString stringWithFormat:@"%.0f", thisScore];
     
     //----
-    
-    NSNumber *levelScore = [[NSUserDefaults standardUserDefaults]objectForKey: [NSString stringWithFormat:@"level%dscore",self.level]];
+    // Fetch the level dict
+    NSMutableDictionary *levelData = [[NSUserDefaults standardUserDefaults]objectForKey: [NSString stringWithFormat:@"level%d",self.level]];
+    if(levelData == nil){
+        levelData = [NSMutableDictionary new];
+    }
+    // If this score beats your old score, overwrite the old score.
+    NSNumber *levelScore = [levelData valueForKey:@"score"];
     if(thisScore > [levelScore floatValue]){
         levelScore = [NSNumber numberWithFloat:thisScore];
-        [[NSUserDefaults standardUserDefaults]setObject:levelScore forKey:[NSString stringWithFormat:@"level%dscore",self.level]];
+        [levelData setValue:levelScore forKey:@"score"];
+        [[NSUserDefaults standardUserDefaults]setObject: levelData forKey:[NSString stringWithFormat:@"level%d",self.level]];
+        [[NSUserDefaults standardUserDefaults]synchronize];
+    }
+    // Completing a level means that you've played the game before.
+    NSNumber *firsttime = [[NSUserDefaults standardUserDefaults]valueForKey: @"firsttime"];
+    if([firsttime boolValue]){
+        firsttime = [NSNumber numberWithBool:NO];
+        [[NSUserDefaults standardUserDefaults]setObject: firsttime forKey:@"firsttime"];
         [[NSUserDefaults standardUserDefaults]synchronize];
     }
 }
@@ -124,7 +148,11 @@
 #pragma mark - Next selector that removes all children and loads next level
 
 - (void) next{
-    [self loadNextLevel];
+    //[self loadNextLevel];
+    [self resetWorld];
+    CCScene *tripSelectScene = [CCBReader loadAsScene:@"TripSelect"];
+    [[CCDirector sharedDirector] replaceScene:tripSelectScene withTransition: [CCTransition transitionPushWithDirection:CCTransitionDirectionLeft duration:.5]];
+    
 }
 
 - (void) retry{

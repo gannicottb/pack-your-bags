@@ -63,6 +63,16 @@
 				<key>value</key>
 				<string>Moscow</string>
 			</dict>
+			<dict>
+				<key>name</key>
+				<string>locked</string>
+				<key>optimized</key>
+				<false/>
+				<key>type</key>
+				<integer>2</integer>
+				<key>value</key>
+				<string>1</string>
+			</dict>
 		</array>
 		<key>displayName</key>
 		<string>CCNode</string>

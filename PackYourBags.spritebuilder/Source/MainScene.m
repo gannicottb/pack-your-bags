@@ -29,8 +29,19 @@
     
 //    CCScene *tripSelectScene = [CCBReader loadAsScene:@"TripSelect"];
 //    [[CCDirector sharedDirector] replaceScene:tripSelectScene];
-    CCScene *tutorialScene = [CCBReader loadAsScene:@"Tutorial"];
-    [[CCDirector sharedDirector] replaceScene:tutorialScene];
+    
+    NSNumber *firsttime = [[NSUserDefaults standardUserDefaults]valueForKey: @"firsttime"];
+    if(firsttime == nil){
+        firsttime = [NSNumber numberWithBool: YES];
+        [[NSUserDefaults standardUserDefaults]setValue:firsttime forKey:@"firsttime"];
+    }
+    
+    CCScene *tripSelectScene = [CCBReader loadAsScene:@"TripSelect"];
+    [[CCDirector sharedDirector] replaceScene:tripSelectScene];
+    
+    
+    //CCScene *tutorialScene = [CCBReader loadAsScene:@"Tutorial"];
+    //[[CCDirector sharedDirector] replaceScene:tutorialScene];
 }
 
 - (void)dealloc {
