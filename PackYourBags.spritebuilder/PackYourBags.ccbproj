@@ -78,9 +78,24 @@
 			<key>previewFolderHidden</key>
 			<true/>
 		</dict>
+		<key>Assets/alarm_clock.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Assets/arrow.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
 		<key>Assets/blocks/element_blue_rectangle.png</key>
 		<dict/>
 		<key>Assets/camera.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Assets/cheetah_shades.png</key>
 		<dict>
 			<key>scaleFrom</key>
 			<integer>4</integer>
@@ -99,6 +114,36 @@
 		<dict>
 			<key>scaleFrom</key>
 			<integer>1</integer>
+		</dict>
+		<key>Assets/phone_charger.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Assets/sport_glasses.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Assets/towel.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Assets/travel_kit.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>2</integer>
+		</dict>
+		<key>Assets/trip_icon.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Assets/trip_icon_disabled.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
 		</dict>
 		<key>Sprites</key>
 		<dict/>

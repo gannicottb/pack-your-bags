@@ -17,27 +17,9 @@
 }
 
 - (void)play {
-    //CCScene *gameplayScene = [CCBReader loadAsScene:@"Gameplay"];
-    // Set the level by getting the gameplay from scene and setting level property
-    //((Gameplay *)[gameplayScene children][0]).level = 0;
-    
-//    NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
-//    NSString * publishedPath = [resourcePath stringByAppendingPathComponent:@"Published-iOS"];
-//    NSString * levelsPath = [publishedPath stringByAppendingPathComponent:@"Levels"];
-//    NSError * error;
-//    NSArray * directoryContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:levelsPath error:&error];
-    
-//    CCScene *tripSelectScene = [CCBReader loadAsScene:@"TripSelect"];
-//    [[CCDirector sharedDirector] replaceScene:tripSelectScene];
-    
-    
     
     CCScene *tripSelectScene = [CCBReader loadAsScene:@"TripSelect"];
     [[CCDirector sharedDirector] replaceScene:tripSelectScene];
-    
-    
-    //CCScene *tutorialScene = [CCBReader loadAsScene:@"Tutorial"];
-    //[[CCDirector sharedDirector] replaceScene:tutorialScene];
 }
 
 - (void)dealloc {

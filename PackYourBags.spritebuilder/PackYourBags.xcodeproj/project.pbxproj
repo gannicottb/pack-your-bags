@@ -92,7 +92,6 @@
 		BC5399DB1A44DCC90063F482 /* JavaFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC5399D61A44DCC90063F482 /* JavaFoundation.framework */; };
 		BC5399DC1A44DCC90063F482 /* JavaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC5399D71A44DCC90063F482 /* JavaKit.framework */; };
 		D34C7AAB1A9433E4007D7AB2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D34C7AA41A9433E4007D7AB2 /* AppDelegate.m */; };
-		D34C7AAC1A9433E4007D7AB2 /* GameEnd.m in Sources */ = {isa = PBXBuildFile; fileRef = D34C7AA61A9433E4007D7AB2 /* GameEnd.m */; };
 		D34C7AAE1A9433E4007D7AB2 /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = D34C7AAA1A9433E4007D7AB2 /* Tile.m */; };
 		D34C7AB81A944CE5007D7AB2 /* Gameplay.m in Sources */ = {isa = PBXBuildFile; fileRef = D34C7AB71A944CE5007D7AB2 /* Gameplay.m */; };
 		D34C7AC11AA55919007D7AB2 /* Level.m in Sources */ = {isa = PBXBuildFile; fileRef = D34C7AC01AA55919007D7AB2 /* Level.m */; };
@@ -208,8 +207,6 @@
 		BC5399D71A44DCC90063F482 /* JavaKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaKit.framework; path = "../../../../Library/Application Support/Developer/Shared/Xcode/Platforms/Android.platform/Developer/SDKs/SBAndroid.sdk/System/Library/Frameworks/JavaKit.framework"; sourceTree = "<group>"; };
 		D34C7AA31A9433E4007D7AB2 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Source/AppDelegate.h; sourceTree = "<group>"; };
 		D34C7AA41A9433E4007D7AB2 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Source/AppDelegate.m; sourceTree = "<group>"; };
-		D34C7AA51A9433E4007D7AB2 /* GameEnd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameEnd.h; path = Source/GameEnd.h; sourceTree = "<group>"; };
-		D34C7AA61A9433E4007D7AB2 /* GameEnd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameEnd.m; path = Source/GameEnd.m; sourceTree = "<group>"; };
 		D34C7AA91A9433E4007D7AB2 /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tile.h; path = Source/Tile.h; sourceTree = "<group>"; };
 		D34C7AAA1A9433E4007D7AB2 /* Tile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Tile.m; path = Source/Tile.m; sourceTree = "<group>"; };
 		D34C7AB61A944CE5007D7AB2 /* Gameplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Gameplay.h; path = Source/Gameplay.h; sourceTree = "<group>"; };
@@ -420,8 +417,6 @@
 				D34C7AF81AE61A7D007D7AB2 /* TripSelect.m */,
 				D34C7AF31AE6119D007D7AB2 /* Trip.h */,
 				D34C7AF41AE6119D007D7AB2 /* Trip.m */,
-				D34C7AA51A9433E4007D7AB2 /* GameEnd.h */,
-				D34C7AA61A9433E4007D7AB2 /* GameEnd.m */,
 				D34C7AA91A9433E4007D7AB2 /* Tile.h */,
 				D34C7AAA1A9433E4007D7AB2 /* Tile.m */,
 				D34C7AB61A944CE5007D7AB2 /* Gameplay.h */,
@@ -811,7 +806,6 @@
 				D34C7AAB1A9433E4007D7AB2 /* AppDelegate.m in Sources */,
 				B73789871807631A0076A88C /* main.m in Sources */,
 				7A046D8C19E8A20E004C4763 /* MainScene.m in Sources */,
-				D34C7AAC1A9433E4007D7AB2 /* GameEnd.m in Sources */,
 				D34C7AC11AA55919007D7AB2 /* Level.m in Sources */,
 				D34C7AAE1A9433E4007D7AB2 /* Tile.m in Sources */,
 			);

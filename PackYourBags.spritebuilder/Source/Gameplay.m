@@ -56,21 +56,35 @@
     _currentLevel = self.level;
     [self loadLevel:(_currentLevel)];
     
-    NSNumber *firsttime = [[NSUserDefaults standardUserDefaults]valueForKey: @"firsttime"];
-    if([firsttime boolValue] && self.level == 0){
-        CCNode *arrow = [CCBReader load:@"TutorialArrow"];
-        self.paused = YES;
+   
+    
+    //NSNumber *firsttime = [[NSUserDefaults standardUserDefaults]valueForKey: @"firsttime"];
+    //if([firsttime boolValue] && self.level == 0){
+    
+    CCNode *arrow;
+    CGPoint arrowPos;
+    if(self.level == 0){
+        arrow = [CCBReader load:@"TutArrowDrag"];
+        arrowPos = [self centerPoint:_levelNode];
+    } else if (self.level == 1){
+        arrow = [CCBReader load:@"TutArrowTime"];
+        arrowPos = ccp(_clock.positionInPoints.x,
+                       _levelNode.positionInPoints.y+_levelNode.contentSizeInPoints.height/2);
+    }
+
+    if(arrow){
+         self.paused = YES;
         [self addChild: arrow];
-        arrow.positionInPoints = [self centerPoint:_levelNode];
+        arrow.positionInPoints = arrowPos;
+        
         CCAnimationManager* arrowAnimationManager = [arrow animationManager];
         [arrowAnimationManager runAnimationsForSequenceNamed:@"appear"];
         [arrowAnimationManager setCompletedAnimationCallbackBlock:^(id sender) {
             [self removeChild: arrow];
             self.paused = NO;
         }];
-        
-        
     }
+    
 }
 
 - (CGPoint) centerPoint: (CCNode*) node{
