@@ -52,7 +52,9 @@
 
 - (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
     
-    //CCLOG(@"TOUCH_BEGAN");
+    if(_gameplay.paused == YES){
+        return;
+    }
     
     // First check to see if the touch hits one of my tiles
     CGPoint touchLocationInSelf = [touch locationInNode:self];
@@ -77,37 +79,31 @@
     [_gameplay addChild :self];
     [self setPositionInPoints:posInGameplay];
     CCLOG(@"Added to %@", self.parent);
-//    CCLOG(@"Position before rotate: %f, %f", self.positionInPoints.x, self.positionInPoints.y);
-//    CCLOG(@"bottomLeftCorner before rotate: %f, %f", [self bottomLeftCorner].x, [self bottomLeftCorner].y);
-    
-    //self.rotation = 90.0;
-    
-    
-//    for(CCNode* child in self.children){
-//        if([child isKindOfClass:[Tile class]]){
-//            Tile *tile = (Tile*) child;
-//            tile.rotation = 90.0;
-//        }
-//    }
     
 }
 
 - (void)touchMoved:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
-    
+    if(_gameplay.paused == YES){
+        return;
+    }
     // we want to know the location of our touch in this scene
     CGPoint touchLocation = [touch locationInNode:self.parent];
     // make the tile follow the touch
     self.positionInPoints = touchLocation;
-    //CCLOG(@"Position after  rotate: %f, %f", self.positionInPoints.x, self.positionInPoints.y);
-//    CCLOG(@"bottomLeftCorner after  rotate: %f, %f", [self bottomLeftCorner].x, [self bottomLeftCorner].y);
 
 }
 
 - (void)touchEnded:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
+    if(_gameplay.paused == YES){
+        return;
+    }
     [self drop];
 }
 
 - (void)touchCancelled:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
+    if(_gameplay.paused == YES){
+        return;
+    }
     [self drop];
 }
 
@@ -169,12 +165,6 @@
     CGPoint rotatedPos = worldCoord;
    
     
-//    return ccp(
-//               (bl_tile.positionInPoints.x - bl_tile.contentSizeInPoints.width/2) +
-//               (self.positionInPoints.x - self.contentSizeInPoints.width/2),
-//               (bl_tile.positionInPoints.y - bl_tile.contentSizeInPoints.height/2) +
-//               (self.positionInPoints.y - self.contentSizeInPoints.height/2)
-//               );
     return ccp(
                (rotatedPos.x - bl_tile.contentSizeInPoints.width/2) +
                (self.positionInPoints.x - self.contentSizeInPoints.width/2),

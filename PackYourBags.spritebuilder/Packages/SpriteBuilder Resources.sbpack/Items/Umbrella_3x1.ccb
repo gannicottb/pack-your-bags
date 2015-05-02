@@ -10,7 +10,7 @@
 		<false/>
 	</dict>
 	<key>UUID</key>
-	<integer>10</integer>
+	<integer>12</integer>
 	<key>centeredOrigin</key>
 	<false/>
 	<key>currentResolution</key>
@@ -133,8 +133,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
+							<real>160</real>
 							<real>32</real>
-							<real>96</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -195,8 +195,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
+							<real>96</real>
 							<real>32</real>
-							<real>160</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -227,7 +227,7 @@
 			</dict>
 			<dict>
 				<key>UUID</key>
-				<integer>3</integer>
+				<integer>11</integer>
 				<key>baseClass</key>
 				<string>CCSprite</string>
 				<key>children</key>
@@ -235,7 +235,7 @@
 				<key>customClass</key>
 				<string></string>
 				<key>displayName</key>
-				<string>tile_1x1_a</string>
+				<string>umbrella</string>
 				<key>memberVarAssignmentName</key>
 				<string></string>
 				<key>memberVarAssignmentType</key>
@@ -257,11 +257,11 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>0.0</real>
-							<real>0.0</real>
+							<real>0.5</real>
+							<real>0.5</real>
 							<integer>0</integer>
-							<integer>0</integer>
-							<integer>0</integer>
+							<integer>2</integer>
+							<integer>2</integer>
 						</array>
 					</dict>
 					<dict>
@@ -271,8 +271,8 @@
 						<string>Point</string>
 						<key>value</key>
 						<array>
-							<real>0.0</real>
-							<real>0.0</real>
+							<real>0.5</real>
+							<real>0.5</real>
 						</array>
 					</dict>
 					<dict>
@@ -283,7 +283,7 @@
 						<key>value</key>
 						<array>
 							<real>1</real>
-							<real>3</real>
+							<real>1</real>
 							<false/>
 							<integer>0</integer>
 						</array>
@@ -296,7 +296,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>Assets/tile_1x1_a.png</string>
+							<string>Assets/umbrella.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -332,6 +332,8 @@
 						<array/>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>
@@ -373,8 +375,8 @@
 				<string>Size</string>
 				<key>value</key>
 				<array>
-					<real>64</real>
 					<real>192</real>
+					<real>64</real>
 					<integer>0</integer>
 					<integer>0</integer>
 				</array>

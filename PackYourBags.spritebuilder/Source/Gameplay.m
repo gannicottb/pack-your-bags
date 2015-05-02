@@ -13,13 +13,16 @@
 #import "Gameplay.h"
 
 @implementation Gameplay{
-    int _numLevels, _currentLevel;
+    int _numLevels;
     
+    CCLabelTTF *_levelLabel;
     
     CCTimer *_levelTimer;
     CCColor *originalTimerColor;
     CCLabelTTF *_timerLabel;
     CCNode *_clock;
+    
+    CCNode *_pauseButton;
     
     CCTime _timeLimit;
     CCTime _timeTaken;
@@ -39,8 +42,6 @@
 - (void)didLoadFromCCB {
     
     self.userInteractionEnabled = TRUE;
-    
-    _numLevels = 4;
 
     originalTimerColor = _timerLabel.color;
     
@@ -56,9 +57,7 @@
 
 -(void) onEnter{
     [super onEnter];
-    _currentLevel = self.level;
-    [self loadLevel:(_currentLevel)];
-    
+    [self loadLevel:self.level];
    
     
     //NSNumber *firsttime = [[NSUserDefaults standardUserDefaults]valueForKey: @"firsttime"];
@@ -100,12 +99,10 @@
 
     if([self getChildByName:@"menu" recursively:YES]){
         [self removeChild:_menu];
+        self.paused = NO;
     }
     
-    if(![self touchingClock:[touch locationInNode: self]]){
-        // Pass the touch down to the next layer, it's not in any of the tiles
-        [super touchBegan:touch withEvent:event];
-    }else{
+    if([self touchedPause:[touch locationInNode: self]]){
         self.paused = YES;
         _menu = [CCBReader load:@"Menu"];
         _menu.positionInPoints = [self centerPoint: self];
@@ -114,15 +111,18 @@
         [quit setTarget:self selector:@selector(next)];
         [retry setTarget:self selector:@selector(retry)];
         [self addChild: _menu];
+    }else{
+        // Pass the touch down to the next layer,
+        [super touchBegan:touch withEvent:event];
+
     }
 }
 
--(BOOL) touchingClock: (CGPoint) touchLocation{
-    return CGRectContainsPoint([_clock boundingBox], touchLocation);
+-(BOOL) touchedPause: (CGPoint) touchLocation{
+    return CGRectContainsPoint([_pauseButton boundingBox], touchLocation);
 }
 
 #pragma mark - Update loop callback
-
 - (void)update:(CCTime)delta
 {
     if([self checkForWin]){
@@ -153,8 +153,7 @@
     CCLabelTTF *_scoreValue =           (CCLabelTTF *)[_lid getChildByName:@"scoreValue" recursively:YES];
     
     CGFloat percentPacked = _bag.itemsPacked / _itemsInLevel;
-    //CCTime timeLeft = _timeLimit - _timeTaken;
-    CGFloat thisScore = _timeLeft * percentPacked;
+    CGFloat thisScore = (_timeLeft/(_timeLimit > 0 ? _timeLimit : 1) + percentPacked)*100;
     
     _percentPackedValue.string =    [NSString stringWithFormat:@"%.2f", percentPacked*100.0];
     _timeTakenValue.string =        [NSString stringWithFormat:@"%.2f", _timeTaken];
@@ -211,7 +210,6 @@
 #pragma mark - Next selector that removes all children and redirects to trip select
 
 - (void) next{
-    //[self loadNextLevel];
     [self resetWorld];
     CCScene *tripSelectScene = [CCBReader loadAsScene:@"TripSelect"];
     [[CCDirector sharedDirector] replaceScene:tripSelectScene withTransition: [CCTransition transitionPushWithDirection:CCTransitionDirectionLeft duration:.5]];
@@ -230,12 +228,6 @@
     [self loadLevel:self.level];
 }
 
-#pragma mark - Convenience method for loading the next level (loops)
-
--(void)loadNextLevel{
-    [self loadLevel:(++_currentLevel%_numLevels)];
-}
-
 #pragma mark - Loads level using CCBReader based on supplied numeric index
 
 -(void)loadLevel:(int)index{
@@ -250,6 +242,7 @@
     Level *level = (Level*)[CCBReader load:[NSString stringWithFormat:@"Levels/LevelNew%i", index]];
     
     _timeLimit = level.timeLimit;
+    _levelLabel.string = level.title;
     
     // Make a copy of the level children so that we don't have mutation during iteration problems
     NSArray *items = [level.children copy];
@@ -275,31 +268,11 @@
     CCLOG(@"%li items in this level", (long)_itemsInLevel);
     
     // Schedule the timer
-//    if(_timeLimit > 0){
-//        [self schedule:@selector(updateTimer:) interval: 1.0];
-//    }else{
-//        _timerLabel.string = @"";
-//    }
     [self schedule:@selector(updateTimer:) interval: 1.0];
     _timeTaken = 0;
 }
 
 #pragma mark - Timer update method
-
-//-(void)updateTimer:(CCTime)delta{
-//    //this is called every second
-//    if((_timeLimit - _timeTaken) > 0){
-//        if((_timeLimit - _timeTaken) <= 3.0){
-//            _timerLabel.color = CCColor.redColor;
-//        }
-//        _timerLabel.string = [NSString stringWithFormat:@"0:%.0f", _timeLimit - (_timeTaken++)];
-//    }else{
-//        //ran out of time
-//        _timerLabel.string = [NSString stringWithFormat:@"0:%.0f", _timeLimit - _timeTaken];
-//        [self gameOverWithStatus: [self checkForWin]];
-//    }
-//    
-//}
 
 -(void)updateTimer:(CCTime)delta{
     //Update timeLeft and timeTaken
@@ -307,7 +280,7 @@
     
     _timeLeft = _timeLimit > 0 ? (_timeLimit - _timeTaken) : 1;
     
-     _timerLabel.string = [NSString stringWithFormat:@"0:%.0f", _timeLimit - _timeTaken];
+     _timerLabel.string = [NSString stringWithFormat:@"0:%0.0f", _timeLimit - _timeTaken];
     
     if((_timeLeft) == 0){
         [self gameOverWithStatus: [self checkForWin]];
