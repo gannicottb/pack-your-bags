@@ -60,16 +60,12 @@
     CCAnimationManager* tripAnimationManager = [self animationManager];
     [tripAnimationManager runAnimationsForSequenceNamed:@"tap"];
     [tripAnimationManager setCompletedAnimationCallbackBlock:^(id sender) {
-//        if([firsttime boolValue]){
-//            CCScene *tutorialScene = [CCBReader loadAsScene:@"Tutorial"];
-//            [[CCDirector sharedDirector] replaceScene:tutorialScene];
-//        }else{
-            // Load the level
+            // Load Gameplay
             CCScene *gameplayScene = [CCBReader loadAsScene:@"Gameplay"];
             // Set the level by getting the gameplay from scene and setting level property
             ((Gameplay *)[gameplayScene children][0]).level = self.level;
             [[CCDirector sharedDirector]replaceScene:gameplayScene withTransition: [CCTransition transitionPushWithDirection:CCTransitionDirectionRight duration:.5]];
-       // }
+       
     }];
 
 }

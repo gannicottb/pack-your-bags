@@ -10,10 +10,6 @@
 
 @interface Tile : CCNode
 
-//@property (nonatomic, assign) bool inBag;
-
-
-//- (void)releaseTile;
 - (CGPoint)bottomLeftCorner;
 
 @end

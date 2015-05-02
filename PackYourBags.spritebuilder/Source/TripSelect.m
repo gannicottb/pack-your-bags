@@ -17,13 +17,11 @@
 - (void)onEnter {
     [super onEnter];
     NSString * resourcePath = [[NSBundle mainBundle] resourcePath];
-    NSString * publishedPath = [resourcePath stringByAppendingPathComponent:@"Published-iOS"];
-    NSString * levelsPath = [publishedPath stringByAppendingPathComponent:@"Levels"];
+    NSString *levelsPath = [resourcePath stringByAppendingString:@"/Published-iOS/Levels"];
     NSError * error;
     NSArray * directoryContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:levelsPath error:&error];
     
     for(NSString *levelName in directoryContents){
-        //_topRow addChild:
         Trip *trip = (Trip *)[CCBReader load:@"Trip"];
         int levelindex = [[levelName stringByReplacingOccurrencesOfString:@"LevelNew" withString:@""] intValue];
         trip.level = levelindex;

@@ -13,15 +13,18 @@
 #import "Gameplay.h"
 
 @implementation Gameplay{
-    
     int _numLevels, _currentLevel;
+    
     
     CCTimer *_levelTimer;
     CCColor *originalTimerColor;
-    CCTime _timeLimit;
-    CCTime _timeTaken;
     CCLabelTTF *_timerLabel;
     CCNode *_clock;
+    
+    CCTime _timeLimit;
+    CCTime _timeTaken;
+    CCTime _timeLeft;
+    
     CCNode *_menu;
     
     Bag *_bag;
@@ -61,11 +64,12 @@
     //NSNumber *firsttime = [[NSUserDefaults standardUserDefaults]valueForKey: @"firsttime"];
     //if([firsttime boolValue] && self.level == 0){
     
-    CCNode *arrow;
+    CCNode *arrow = nil;
     CGPoint arrowPos;
     if(self.level == 0){
         arrow = [CCBReader load:@"TutArrowDrag"];
         arrowPos = [self centerPoint:_levelNode];
+        _timerLabel.visible = NO;
     } else if (self.level == 1){
         arrow = [CCBReader load:@"TutArrowTime"];
         arrowPos = ccp(_clock.positionInPoints.x,
@@ -149,8 +153,8 @@
     CCLabelTTF *_scoreValue =           (CCLabelTTF *)[_lid getChildByName:@"scoreValue" recursively:YES];
     
     CGFloat percentPacked = _bag.itemsPacked / _itemsInLevel;
-    CCTime timeLeft = _timeLimit - _timeTaken;
-    CGFloat thisScore = timeLeft * percentPacked;
+    //CCTime timeLeft = _timeLimit - _timeTaken;
+    CGFloat thisScore = _timeLeft * percentPacked;
     
     _percentPackedValue.string =    [NSString stringWithFormat:@"%.2f", percentPacked*100.0];
     _timeTakenValue.string =        [NSString stringWithFormat:@"%.2f", _timeTaken];
@@ -271,30 +275,45 @@
     CCLOG(@"%li items in this level", (long)_itemsInLevel);
     
     // Schedule the timer
-    if(_timeLimit > 0){
-        [self schedule:@selector(updateTimer:) interval: 1.0];
-    }else{
-        _timerLabel.string = @"";
-    }
-    
+//    if(_timeLimit > 0){
+//        [self schedule:@selector(updateTimer:) interval: 1.0];
+//    }else{
+//        _timerLabel.string = @"";
+//    }
+    [self schedule:@selector(updateTimer:) interval: 1.0];
     _timeTaken = 0;
 }
 
 #pragma mark - Timer update method
 
+//-(void)updateTimer:(CCTime)delta{
+//    //this is called every second
+//    if((_timeLimit - _timeTaken) > 0){
+//        if((_timeLimit - _timeTaken) <= 3.0){
+//            _timerLabel.color = CCColor.redColor;
+//        }
+//        _timerLabel.string = [NSString stringWithFormat:@"0:%.0f", _timeLimit - (_timeTaken++)];
+//    }else{
+//        //ran out of time
+//        _timerLabel.string = [NSString stringWithFormat:@"0:%.0f", _timeLimit - _timeTaken];
+//        [self gameOverWithStatus: [self checkForWin]];
+//    }
+//    
+//}
+
 -(void)updateTimer:(CCTime)delta{
-    //this is called every second
-    if((_timeLimit - _timeTaken) > 0){
-        if((_timeLimit - _timeTaken) <= 3.0){
-            _timerLabel.color = CCColor.redColor;
-        }
-        _timerLabel.string = [NSString stringWithFormat:@"0:%.0f", _timeLimit - (_timeTaken++)];
-    }else{
-        //ran out of time
-        _timerLabel.string = [NSString stringWithFormat:@"0:%.0f", _timeLimit - _timeTaken];
-        [self gameOverWithStatus: [self checkForWin]];
-    }
+    //Update timeLeft and timeTaken
+    _timeTaken++;
     
+    _timeLeft = _timeLimit > 0 ? (_timeLimit - _timeTaken) : 1;
+    
+     _timerLabel.string = [NSString stringWithFormat:@"0:%.0f", _timeLimit - _timeTaken];
+    
+    if((_timeLeft) == 0){
+        [self gameOverWithStatus: [self checkForWin]];
+    }else if((_timeLeft) <= 3.0){
+        _timerLabel.color = CCColor.redColor;
+    }
 }
 
 #pragma mark - Reset the tile counters, throw out old level, unschedule timer, remove lid
