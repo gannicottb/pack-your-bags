@@ -304,6 +304,12 @@
 
 -(void)gameOverWithStatus: (BOOL) won {
     [self unschedule:@selector(updateTimer:)];
+    NSMutableArray *items = [self.children mutableCopy];
+    for(CCNode *item in items){
+        if([item isKindOfClass: [Item class]]){
+                [self removeChild:item];
+        }
+    }
     [self displayLevelResults];
     [_bag clearGrid];
 }
